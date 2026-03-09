@@ -55,37 +55,39 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
     <style>
         .status-banner {
             display: flex; align-items: center; gap: 12px; padding: 14px 20px;
-            border-radius: 8px; font-weight: 600; margin-bottom: 20px;
+            border-radius: 14px; font-weight: 600; margin-bottom: 20px;
         }
-        .status-banner.checking  { background:#eff6ff; border:1px solid #93c5fd; color:#1e3a8a; }
-        .status-banner.error     { background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; }
-        .status-banner.ok        { background:#f0fdf4; border:1px solid #86efac; color:#166534; }
+        .status-banner.checking  { background:rgba(147,197,253,0.20); border:1px solid rgba(147,197,253,0.50); color:#bfdbfe; }
+        .status-banner.error     { background:rgba(252,165,165,0.18); border:1px solid rgba(252,165,165,0.50); color:#fecaca; }
+        .status-banner.ok        { background:rgba(134,239,172,0.18); border:1px solid rgba(134,239,172,0.50); color:#bbf7d0; }
 
         .sensor-check-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
         .sensor-chip {
-            border-radius: 8px; padding: 16px; text-align: center; font-weight: 700;
-            border: 2px solid #e5e7eb; background: #f8fbff;
+            border-radius: 14px; padding: 16px; text-align: center; font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.10);
+            color: rgba(255,255,255,0.80);
         }
-        .sensor-chip.connected    { background:#f0fdf4; border-color:#86efac; color:#166534; }
-        .sensor-chip.disconnected { background:#fef2f2; border-color:#fca5a5; color:#991b1b; }
+        .sensor-chip.connected    { background:rgba(134,239,172,0.18); border-color:rgba(134,239,172,0.55); color:#bbf7d0; }
+        .sensor-chip.disconnected { background:rgba(252,165,165,0.18); border-color:rgba(252,165,165,0.55); color:#fecaca; }
         
         .setup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .setup-card { background:#fff; border:2px solid #e5e7eb; border-radius:10px; padding:20px; }
-        .setup-card h4 { margin:0 0 15px; color:#1e3a8a; font-size:1.1em; border-bottom:2px solid #eee; padding-bottom:10px; }
+        .setup-card { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.24); border-radius:16px; padding:20px; backdrop-filter:blur(14px); }
+        .setup-card h4 { margin:0 0 15px; color:#fff; font-size:1.05em; border-bottom:1px solid rgba(255,255,255,0.18); padding-bottom:10px; }
         
         .btn-proceed {
-            background: linear-gradient(135deg,#059669,#047857); color: #fff; border: none;
-            border-radius: 6px; padding: 15px 30px; font-size: 1.1em; font-weight: 700; width: 100%;
-            cursor: pointer; margin-top: 20px; transition: transform 0.2s;
+            background: rgba(5,150,105,0.40); color: #d1fae5; border: 1px solid rgba(16,185,129,0.60);
+            border-radius: 999px; padding: 15px 30px; font-size: 1.1em; font-weight: 700; width: 100%;
+            cursor: pointer; margin-top: 20px; transition: transform 0.2s, background 0.2s;
+            backdrop-filter: blur(10px);
         }
-        .btn-proceed:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(5,150,105,0.3); }
-        .btn-proceed:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-proceed:hover { transform: translateY(-2px); background: rgba(5,150,105,0.60); box-shadow: 0 6px 18px rgba(5,150,105,0.35); }
+        .btn-proceed:disabled { opacity: 0.45; filter: grayscale(1); cursor: not-allowed; transform: none; box-shadow: none; }
 
         .btn-capture {
-            background: #2563eb; color: #fff; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.2s;
+            background: rgba(37,99,235,0.35); color: #bfdbfe; border: 1px solid rgba(99,179,237,0.55); padding: 10px 15px; border-radius: 999px; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.2s; backdrop-filter: blur(8px);
         }
-        .btn-capture:hover { background: #1d4ed8; }
-        .captured-value { font-size: 1.5em; font-weight: bold; color: #0f766e; text-align: center; display: block; margin-top: 10px; }
+        .btn-capture:hover { background: rgba(37,99,235,0.55); }
+        .captured-value { font-size: 1.5em; font-weight: bold; color: #5eead4; text-align: center; display: block; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -122,8 +124,8 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                 <h3>Step 2 — Configure Test Parameters</h3>
                 
                 <?php if($session_id == 0 && count($students) == 0): ?>
-                    <div style="background:#fef2f2; color:#991b1b; padding:15px; border-radius:5px; border:1px solid #fca5a5;">
-                        ❌ No active students available. You must <a href="add_student.php" style="color:#7f1d1d;">register a student</a> before testing.
+                    <div class="msg-error">
+                        ❌ No active students available. You must <a href="add_student.php" style="color:#fca5a5;">register a student</a> before testing.
                     </div>
                 <?php else: ?>
                     <form method="POST" action="test_driver.php" id="setupForm">
@@ -131,14 +133,14 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                         
                         <?php if($session_id > 0): ?>
                             <input type="hidden" name="student_id" value="<?= $student_id ?>">
-                            <div class="form-group" style="background:#f8fbff; padding:15px; border-radius:8px; border:1px solid #bfdbfe;">
+                            <div class="form-group" style="background:rgba(255,255,255,0.10); padding:15px; border-radius:14px; border:1px solid rgba(255,255,255,0.22);">
                                 <label>Continuing Testing For Session #<?= $session_id ?></label>
-                                <div style="font-size: 1.2em; font-weight: bold; color: #1e3a8a; padding: 10px; background: #fff; border: 1px dashed #93c5fd; border-radius: 5px;">
+                                <div style="font-size: 1.15em; font-weight: bold; color: #93c5fd; padding: 10px; background: rgba(255,255,255,0.08); border: 1px dashed rgba(147,197,253,0.50); border-radius: 10px;">
                                     👤 <?= $student_name ?>
                                 </div>
                             </div>
                         <?php else: ?>
-                            <div class="form-group" style="background:#f8fbff; padding:15px; border-radius:8px; border:1px solid #bfdbfe;">
+                            <div class="form-group" style="background:rgba(255,255,255,0.10); padding:15px; border-radius:14px; border:1px solid rgba(255,255,255,0.22);">
                                 <label>Select Student to Start a New Testing Session</label>
                                 <select name="student_id" required class="form-control">
                                     <option value="">-- Select Active Student --</option>
@@ -153,9 +155,9 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
 
                         <!-- GLOBAL PRESET LOADER -->
                         <?php if(count($presets) > 0): ?>
-                            <div class="form-group" style="background:#fffbeb; padding:20px; border-radius:8px; border:2px solid #fde68a; margin-bottom: 20px;">
-                                <label style="font-weight:bold; color:#b45309; font-size:1.1em;">🏅 Rapid Configuration: Load Saved Parking Standard</label>
-                                <select id="global_preset_selector" class="form-control" style="font-size:1.1em; padding:10px;" onchange="loadGlobalPreset(this.value)">
+                            <div class="form-group" style="background:rgba(251,191,36,0.12); padding:20px; border-radius:14px; border:1px solid rgba(251,191,36,0.40); margin-bottom: 20px;">
+                                <label style="font-weight:bold; color:#fde68a; font-size:1.05em;">🏅 Rapid Configuration: Load Saved Parking Standard</label>
+                                <select id="global_preset_selector" class="form-control" style="font-size:1.05em; padding:10px;" onchange="loadGlobalPreset(this.value)">
                                     <option value="">-- Start Fresh / Manual Calibration --</option>
                                     <?php foreach($presets as $p): 
                                         $valString = $p['assigned_side_1']."|".$p['calibration_distance_1']."|".$p['allowed_distance_error_1']."||".
@@ -189,15 +191,15 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                                         <option value="Right">Right Side</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="background:#f1f5f9; padding: 15px; border-radius: 8px;">
+                                <div class="form-group" style="background:rgba(255,255,255,0.08); padding: 15px; border-radius: 14px; border:1px solid rgba(255,255,255,0.18);">
                                     <label>Perfect Parking Distance</label>
-                                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:#fff; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
-                                        <div style="text-align:center; flex-grow:1; border-right:2px solid #e2e8f0;">
-                                            <span style="display:block; font-size:0.8em; color:#64748b; font-weight:bold; text-transform:uppercase;">Live Feed</span>
-                                            <span id="live_feed_<?= $hw_id ?>" style="font-size:1.8em; font-weight:bold; color:#2563eb;">-- cm</span>
+                                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:rgba(255,255,255,0.10); padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.18);">
+                                        <div style="text-align:center; flex-grow:1; border-right:1px solid rgba(255,255,255,0.18);">
+                                            <span style="display:block; font-size:0.78em; color:rgba(255,255,255,0.65); font-weight:bold; text-transform:uppercase;">Live Feed</span>
+                                            <span id="live_feed_<?= $hw_id ?>" style="font-size:1.8em; font-weight:bold; color:#93c5fd;">-- cm</span>
                                         </div>
                                         <div style="text-align:center; flex-grow:1;">
-                                            <span style="display:block; font-size:0.8em; color:#64748b; font-weight:bold; text-transform:uppercase;">Captured target</span>
+                                            <span style="display:block; font-size:0.78em; color:rgba(255,255,255,0.65); font-weight:bold; text-transform:uppercase;">Captured target</span>
                                             <span class="captured-value" id="display_calib_<?= $hw_id ?>" style="margin-top:0; font-size:1.8em;">--</span>
                                         </div>
                                     </div>
@@ -212,8 +214,8 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                                 </div>
                                 
                                 <div style="display:flex; gap:10px; margin-top:15px;">
-                                    <button type="button" id="btn_lock_<?= $hw_id ?>" class="action-btn" style="flex:1; background:#059669;" onclick="lockSensor('<?= $hw_id ?>')">🔒 Lock Calibration</button>
-                                    <button type="button" id="btn_unlock_<?= $hw_id ?>" class="action-btn" style="flex:1; background:#b91c1c; display:none;" onclick="unlockSensor('<?= $hw_id ?>')">🔓 Unlock</button>
+                                    <button type="button" id="btn_lock_<?= $hw_id ?>" class="action-btn" style="flex:1;" onclick="lockSensor('<?= $hw_id ?>')">🔒 Lock Calibration</button>
+                                    <button type="button" id="btn_unlock_<?= $hw_id ?>" class="action-btn" style="flex:1; display:none; background:rgba(185,28,28,0.45);" onclick="unlockSensor('<?= $hw_id ?>')">🔓 Unlock</button>
                                 </div>
                             </div>
                             <?php endforeach; ?>

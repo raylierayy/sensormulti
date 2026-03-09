@@ -46,82 +46,119 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sensor System</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
         }
         .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.16);
+            backdrop-filter: blur(22px) saturate(150%);
+            -webkit-backdrop-filter: blur(22px) saturate(150%);
+            border: 1px solid rgba(255,255,255,0.32);
+            border-radius: 28px;
+            padding: 44px 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.24);
         }
-        h2 {
+        .login-container h2 {
             text-align: center;
-            color: #1e3a8a; /* Matching the blue theme */
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.7em;
+            font-weight: 800;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+        .login-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.70);
+            font-size: 0.9em;
             margin-bottom: 30px;
         }
-        .form-group {
-            margin-bottom: 20px;
+        .login-container .form-group {
+            margin-bottom: 18px;
         }
-        label {
+        .login-container label {
             display: block;
-            margin-bottom: 5px;
-            color: #555;
+            margin-bottom: 6px;
+            color: rgba(255,255,255,0.88);
+            font-weight: 600;
+            font-size: 0.9em;
         }
-        input[type="text"], input[type="password"] {
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box; /* Fix padding issue */
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.65);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.88);
+            font-weight: 600;
+            font-size: 0.95em;
+            color: #1e293b;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        button {
+        .login-container input:focus {
+            border-color: rgba(99,179,237,0.90);
+            box-shadow: 0 0 0 3px rgba(99,179,237,0.25);
+            background: rgba(255,255,255,0.97);
+        }
+        .login-btn {
             width: 100%;
-            padding: 12px;
-            background: #1e3a8a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            padding: 13px;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(14px);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.50);
+            border-radius: 999px;
+            font-size: 1em;
+            font-weight: 800;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.20);
+            margin-top: 8px;
         }
-        button:hover {
-            background: #2e4fa2;
+        .login-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.26);
+            box-shadow: 0 14px 36px rgba(0,0,0,0.26);
         }
-        .error {
-            color: red;
+        .error-pill {
+            background: rgba(239,68,68,0.20);
+            border: 1px solid rgba(239,68,68,0.50);
+            color: #fee2e2;
+            padding: 10px 18px;
+            border-radius: 999px;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            font-weight: 600;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h2>Instructor Login</h2>
+    <h2>🅿️ Parking Aid</h2>
+    <p class="login-subtitle">Multi-Sensor Test System — Instructor Login</p>
     <?php if ($error): ?>
-        <p class="error"><?php echo $error; ?></p>
+        <div class="error-pill">⚠️ <?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     <form method="POST" action="">
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" placeholder="Enter username" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" class="login-btn">Login →</button>
     </form>
 </div>
 

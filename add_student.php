@@ -48,10 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="card" style="max-width: 600px;">
                 <h3>Enter Student Details</h3>
                 <?php if ($message): ?>
-                    <div style="color: green; margin-bottom: 15px; background: #f0fdf4; padding: 10px; border-left: 4px solid #22c55e;">✅ <?php echo $message; ?></div>
+                    <div class="msg-success">✅ <?php echo htmlspecialchars($message); ?></div>
                 <?php endif; ?>
                 <?php if ($error): ?>
-                    <div style="color: red; margin-bottom: 15px; background: #fef2f2; padding: 10px; border-left: 4px solid #ef4444;">❌ <?php echo $error; ?></div>
+                    <div class="msg-error">❌ <?php echo htmlspecialchars($error); ?></div>
                 <?php endif; ?>
 
                 <form method="POST" action="">
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     
                     <button type="submit" class="action-btn" style="margin-top: 10px;">Register Student</button>
-                    <a href="students.php" style="margin-left: 15px; color: #666; text-decoration: none;">View All Students →</a>
+                    <a href="students.php" style="margin-left: 15px; color: rgba(255,255,255,0.70); text-decoration: none; font-weight:600;">View All Students →</a>
                 </form>
             </div>
         </section>
