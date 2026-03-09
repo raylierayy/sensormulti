@@ -27,7 +27,7 @@ require 'db_connection.php';
         <section class="content-section">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3 style="margin:0;">All Students</h3>
+                    <h3 style="margin:0; color:#fff;">All Students</h3>
                     <a href="add_student.php" class="action-btn" style="padding: 8px 16px; font-size: 0.9em;">+ Add New</a>
                 </div>
                 
@@ -59,14 +59,14 @@ require 'db_connection.php';
                                 
                                 $status = $row['pass_fail'];
                                 if (empty($status)) {
-                                    echo "<td><span style='color:#a1a1aa; font-weight:bold;'>Pending</span></td>";
+                                    echo "<td><span class='status-pill' style='background:rgba(161,161,170,0.35);color:#fff;'>Pending</span></td>";
                                 } else if (strtolower($status) == 'pass') {
-                                    echo "<td><span style='color:#166534; font-weight:bold;'>✅ Pass</span></td>";
+                                    echo "<td><span class='status-pill status-completed'>✅ Pass</span></td>";
                                 } else {
-                                    echo "<td><span style='color:#991b1b; font-weight:bold;'>❌ Fail</span></td>";
+                                    echo "<td><span class='status-pill' style='background:rgba(239,68,68,0.75);color:#fff;'>❌ Fail</span></td>";
                                 }
 
-                                echo "<td><a href='student_detail.php?id=" . $row['ID'] . "' class='action-btn' style='padding: 5px 10px; font-size: 0.9em; background:#3b82f6;'>View / Grade</a></td>";
+                                echo "<td><a href='student_detail.php?id=" . $row['ID'] . "' class='action-btn' style='padding: 6px 14px; font-size: 0.88em;'>View / Grade</a></td>";
                                 echo "</tr>";
                             }
                         } else {

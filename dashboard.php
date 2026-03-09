@@ -27,15 +27,15 @@ require 'session_check.php';
             <div class="card">
                 <h3>📋 Quick Actions</h3>
                 <div class="nav-buttons">
-                    <button onclick="window.location.href='add_student.php'">Add New Student</button>
-                    <button onclick="window.location.href='students.php'">Manage Students & Scores</button>
-                    <button onclick="window.location.href='calibrate.php'">Start New Test</button>
+                    <button onclick="window.location.href='add_student.php'">➕ Add New Student</button>
+                    <button onclick="window.location.href='students.php'">👥 Manage Students & Scores</button>
+                    <button onclick="window.location.href='calibrate.php'">🚗 Start New Test</button>
                 </div>
             </div>
 
             <div class="card">
                 <h3>ℹ️ System Status</h3>
-                <p>Select an action from the sidebar or the quick actions above to manage students and conduct parking tests.</p>
+                <p style="color:rgba(255,255,255,0.80);">Select an action from the sidebar or the quick actions above to manage students and conduct parking tests.</p>
             </div>
         </section>
     </main>

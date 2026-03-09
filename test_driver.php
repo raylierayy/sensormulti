@@ -159,21 +159,59 @@ if ($student_id > 0) {
     <style>
         .test-panel { display: flex; flex-direction: column; gap: 20px; }
         .monitor-row { display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap; }
-        .sensor-box { background: #1a1a2e; color: #0f0; padding: 20px; border-radius: 10px; width: 30%; min-width: 250px; text-align: center; font-family: 'Courier New', monospace; border: 2px solid #333; position: relative; }
+
+        /* Glass sensor boxes */
+        .sensor-box {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            border: 2px solid rgba(255,255,255,0.28);
+            color: #fff;
+            padding: 22px;
+            border-radius: 20px;
+            width: 30%;
+            min-width: 240px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 14px 40px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.20);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
         
-        .hw-label { position: absolute; top: 10px; left: 10px; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; font-size: 0.7em; }
-        .sensor-title { color: #facc15; font-size: 1.1em; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; }
-        .sensor-val { font-size: 3.5em; font-weight: bold; margin: 10px 0; }
-        .processed-val { font-size: 1.1em; color: #fff; margin-top: 5px; border-top: 1px solid #444; padding-top: 10px; }
-        .calib-data { background: rgba(255,255,255,0.1); padding: 5px; border-radius: 4px; font-size: 0.85em; color: #ddd; margin-top: 5px; }
+        .hw-label { position: absolute; top: 10px; left: 12px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.75); padding: 3px 8px; border-radius: 999px; font-size: 0.7em; font-weight: 600; backdrop-filter: blur(6px); }
+        .sensor-title { color: #fde68a; font-size: 1.05em; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+        .sensor-val { font-size: 3.2em; font-weight: 900; margin: 12px 0; transition: color 0.3s ease; }
+        .processed-val { font-size: 1em; color: rgba(255,255,255,0.82); margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.18); padding-top: 10px; }
+        .calib-data { background: rgba(255,255,255,0.10); padding: 6px 10px; border-radius: 10px; font-size: 0.82em; color: rgba(255,255,255,0.70); margin-top: 6px; }
+
+        /* Connection alarm banner */
+        #connection-alert {
+            display: none;
+            background: rgba(239,68,68,0.30);
+            border: 2px solid rgba(239,68,68,0.70);
+            color: #fecaca;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 1.05em;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: pulse-alert 1.2s infinite;
+        }
+        @keyframes pulse-alert {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.60; }
+        }
 
         .control-panel { display: flex; gap: 20px; margin-top: 20px; justify-content: center; }
-        .btn-green { background: linear-gradient(135deg,#059669,#047857); color: white; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold; }
-        .btn-green:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(5,150,105,0.4); }
-        .btn-green:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        .btn-cancel { background: #6b7280; color: white; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; }
-        .btn-cancel:hover { background: #4b5563; }
+        .btn-green {
+            background: rgba(5,150,105,0.35); color: #d1fae5;
+            border: 1px solid rgba(16,185,129,0.60);
+            padding: 14px 30px; font-size: 1.1em; border-radius: 999px; cursor: pointer;
+            transition: all 0.2s; font-weight: 800; backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(5,150,105,0.28);
+        }
+        .btn-green:hover { transform: translateY(-2px); background: rgba(5,150,105,0.55); box-shadow: 0 12px 30px rgba(5,150,105,0.38); }
+        .btn-green:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
     </style>
 </head>
 <body>
@@ -189,7 +227,7 @@ if ($student_id > 0) {
 
         <section class="content-section">
             <?php if ($error): ?>
-                <div style="color: red; margin-bottom: 15px; background: #fef2f2; padding: 10px; border-left: 4px solid #ef4444;">❌ <?= $error ?></div>
+                <div class="msg-error">❌ <?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
             <div class="card">
@@ -199,6 +237,9 @@ if ($student_id > 0) {
                 </h3>
                 
                 <div class="test-panel">
+                    <!-- Connection loss alarm -->
+                    <div id="connection-alert">🚨 Sensor connection lost! Check hardware and USB connection.</div>
+
                     <div class="monitor-row">
                         <?php 
                         $hwNodes = [
@@ -209,7 +250,7 @@ if ($student_id > 0) {
                         foreach($hwNodes as $hw):
                             $title = "Sensor Module " . $hw['id'];
                         ?>
-                        <div class="sensor-box">
+                        <div class="sensor-box" id="sensor-box-<?= $hw['id'] ?>">
                             <span class="hw-label"><?= $title ?></span>
                             <div class="sensor-title">Assigned: <?= $hw['side'] ?> Side</div>
                             <div class="sensor-val"><span id="val_<?= $hw['id'] ?>">--</span><span style="font-size:0.4em;">cm</span></div>
@@ -258,10 +299,45 @@ if ($student_id > 0) {
     let intervalId = null;
     let currentRaw = { 1: 0, 2: 0, 3: 0 };
 
+    // ── Connection alarm ──────────────────────────────────────────────
+    const SENSOR_TIMEOUT_MS = 3000; // ms without update before alarm triggers
+    let lastSensorUpdate = Date.now();
+    let connectionAlarmShown = false;
+
+    function showConnectionAlarm() {
+        if (!connectionAlarmShown) {
+            document.getElementById('connection-alert').style.display = 'block';
+            connectionAlarmShown = true;
+        }
+    }
+
+    function hideConnectionAlarm() {
+        document.getElementById('connection-alert').style.display = 'none';
+        connectionAlarmShown = false;
+    }
+
+    setInterval(() => {
+        if (Date.now() - lastSensorUpdate > SENSOR_TIMEOUT_MS) {
+            showConnectionAlarm();
+        }
+    }, 500);
+
+    // ── Color-coded accuracy ──────────────────────────────────────────
+    function getAccuracyColor(accuracy) {
+        if (accuracy >= 90) return '#10b981'; // green
+        if (accuracy >= 70) return '#f59e0b'; // yellow
+        return '#ef4444';                     // red
+    }
+
     function fetchSensor() {
         fetch('sensor.php')
             .then(r => r.text())
             .then(data => {
+                if (data.trim()) {
+                    lastSensorUpdate = Date.now();
+                    if (connectionAlarmShown) hideConnectionAlarm();
+                }
+
                 let parts = data.split(",");
                 parts.forEach(part => {
                     let pair = part.trim().split("=");
@@ -301,6 +377,12 @@ if ($student_id > 0) {
                 
                 document.getElementById(`err_${hw}`).innerText = errRaw.toFixed(1);
                 document.getElementById(`acc_${hw}`).innerText = acc.toFixed(1);
+
+                // Color-coded feedback
+                const color = getAccuracyColor(acc);
+                document.getElementById(`val_${hw}`).style.color = color;
+                const box = document.getElementById(`sensor-box-${hw}`);
+                if (box) box.style.borderColor = color;
             }
         });
     }
