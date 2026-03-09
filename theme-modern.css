@@ -465,14 +465,15 @@
    8. LAYOUT UTILITIES — BENTO GRID
    ========================================================================== */
 
+/* Default 3-column grid; wide items require ≥ 2 columns to avoid overflow */
 .bento-grid {
   display:               grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap:                   20px;
   width:                 100%;
 }
 
-/* Wide bento tile (spans 2 cols on ≥ md screens) */
+/* Wide bento tile — spans 2 of the 3 default columns */
 .bento-item-wide {
   grid-column: span 2;
 }
@@ -589,6 +590,7 @@
 
 /* ── Tablet (≤ 1024px) ──────────────────────────────────────── */
 @media (max-width: 1024px) {
+  /* 2-column grid; wide items intentionally fill the full row width */
   .bento-grid       { grid-template-columns: repeat(2, 1fr); }
   .bento-item-wide  { grid-column: span 2; }
   .bento-item-tall  { grid-row: span 1; }
