@@ -1,5 +1,5 @@
 <?php
-$serverName = "DESKTOP-P17AQJI\\SQLEXPRESS"; 
+$serverName = "raylie"; 
 $connectionOptions = [ 
     "Database" => "multi_sensor_db", 
     "Uid" => "",   
