@@ -300,6 +300,7 @@ if ($student_id > 0) {
     let currentRaw = { 1: 0, 2: 0, 3: 0 };
 
     // ── Connection alarm ──────────────────────────────────────────────
+    const SENSOR_TIMEOUT_MS = 3000; // ms without update before alarm triggers
     let lastSensorUpdate = Date.now();
     let connectionAlarmShown = false;
 
@@ -316,7 +317,7 @@ if ($student_id > 0) {
     }
 
     setInterval(() => {
-        if (Date.now() - lastSensorUpdate > 3000) {
+        if (Date.now() - lastSensorUpdate > SENSOR_TIMEOUT_MS) {
             showConnectionAlarm();
         }
     }, 500);
