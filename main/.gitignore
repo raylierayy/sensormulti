@@ -1,0 +1,26 @@
+# Exclude all folders except parking
+/*
+!parking/
+!.gitignore
+!README.md
+
+# Node modules and dependencies
+node_modules/
+vendor/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Environment files
+.env
+.env.local

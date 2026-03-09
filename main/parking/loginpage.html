@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parking Aid - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      min-height: 100vh;
+    }
+
+    .login-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;
+    }
+
+    .login-brand {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .login-brand-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
+
+    .login-brand h1 {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .login-brand p {
+      font-size: 1.1em;
+      opacity: 0.9;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      opacity: 0.9;
+    }
+
+    .feature-item span {
+      font-size: 1.5em;
+    }
+
+    .login-container {
+      flex: 1;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      border-radius: 20px 0 0 20px;
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-header h2 {
+      font-size: 1.8em;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+
+    .form-header p {
+      color: #666;
+      font-size: 0.95em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95em;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      background-color: #f9fafb;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #1e3a8a;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.95em;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      margin: 0;
+      cursor: pointer;
+      font-weight: normal;
+    }
+
+    button[type="submit"] {
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2e4fa2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      color: #666;
+    }
+
+    .signup-link a {
+      color: #1e3a8a;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+      color: #2e4fa2;
+      text-decoration: underline;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 15px;
+    }
+
+    .forgot-password a {
+      color: #1e3a8a;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: color 0.3s;
+    }
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .login-wrapper {
+        flex-direction: column;
+        max-width: 100%;
+      }
+
+      .login-brand {
+        padding: 40px 20px;
+      }
+
+      .login-container {
+        border-radius: 0;
+        padding: 30px 20px;
+      }
+
+      .login-brand h1 {
+        font-size: 2em;
+      }
+
+      .features {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-brand">
+      <div class="login-brand-icon">🅿️</div>
+      <h1>Parking Aid</h1>
+      <p>Master the art of parking with our comprehensive learning platform</p>
+      <div class="features">
+        <div class="feature-item">
+          <span>📚</span>
+          <span>Interactive lessons and tutorials</span>
+        </div>
+        <div class="feature-item">
+          <span>🎯</span>
+          <span>Real-time practice scenarios</span>
+        </div>
+        <div class="feature-item">
+          <span>📊</span>
+          <span>Performance tracking & analytics</span>
+        </div>
+        <div class="feature-item">
+          <span>🏆</span>
+          <span>Earn certificates upon completion</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-container">
+      <form class="login-form" action="mainpage.php" method="POST" enctype="multipart/form-data">
+        <div class="form-header">
+          <h2>Login</h2>
+          <p>Sign in to your account to continue</p>
+        </div>
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        </div>
+
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember" />
+          <label for="remember">Remember me</label>
+        </div>
+
+        <div class="forgot-password">
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <div class="signup-link">
+          Don't have an account? <a href="#">Sign up here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

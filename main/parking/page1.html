@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parking Aid Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Parking Aid</h2>
+      <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Lessons</a>
+        <a href="#">Performance</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="welcome">Welcome, Student Driver</div>
+        <div class="profile">
+          <span>🔔</span>
+          <span>👤</span>
+        </div>
+      </header>
+
+      <section class="dashboard">
+        <div class="card">
+          <h3>Lesson Progress</h3>
+          <p>Completed: 5/10</p>
+          <progress value="50" max="100"></progress>
+        </div>
+
+        <div class="card">
+          <h3>Sensor Feedback</h3>
+          <ul>
+            <li>Obstacle Distance: 1.2m</li>
+            <li>Lane Deviation: 0.1m</li>
+            <li>Parking Accuracy: 98%</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Performance Chart</h3>
+          <img src="kunwarilng.jpg" alt="Performance Chart" width="300" height="200"/>
+        </div>
+      </section>
+
+      <section class="parking-visualizer">
+        <h3>Parking Position Visualizer</h3>
+        <canvas id="parkingCanvas" width="1000" height="300"></canvas>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('parkingCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let carX = 50;
+    let carY = 250;
+
+    function drawParkingLot() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw parking space
+      ctx.fillStyle = '#d3d3d3';
+      ctx.fillRect(400, 100, 200, 100);
+
+      // Draw car
+      ctx.fillStyle = '#007bff';
+      ctx.fillRect(carX, carY, 60, 30);
+
+      // Simulate movement
+      if (carY > 130) {
+        carY -= 1;
+        requestAnimationFrame(drawParkingLot);
+      } else {
+        ctx.fillStyle = 'green';
+        ctx.font = '16px Segoe UI';
+        ctx.fillText('Parked Successfully!', 420, 90);
+      }
+    }
+
+    drawParkingLot();
+  </script>
+</body>
+</html>
+

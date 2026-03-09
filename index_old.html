@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HC-SR04 3 Sensor Monitor</title>
+</head>
+
+<body>
+
+    <h1>Ultrasonic Sensor Readings</h1>
+
+    <p>Left: <span id="left">--</span> cm</p>
+    <p>Front: <span id="front">--</span> cm</p>
+    <p>Right: <span id="right">--</span> cm</p>
+
+    <script>
+        setInterval(function () {
+            fetch("sensor.php")
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (data) {
+                    var parts = data.split(",");
+
+                    for (var i = 0; i < parts.length; i = i + 1) {
+                        var pair = parts[i].split("=");
+
+                        if (pair[0] == "L") {
+                            document.getElementById("left").innerHTML = pair[1];
+                        }
+                        if (pair[0] == "F") {
+                            document.getElementById("front").innerHTML = pair[1];
+                        }
+                        if (pair[0] == "R") {
+                            document.getElementById("right").innerHTML = pair[1];
+                        }
+                    }
+                });
+        }, 2000);
+    </script>
+
+</body>
+
+</html>
