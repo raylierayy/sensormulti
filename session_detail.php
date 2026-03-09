@@ -39,10 +39,11 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session Details - Sensor System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme-modern.css">
     <style>
         .split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
-        .info-panel { flex: 1; min-width: 300px; background: rgba(255,255,255,0.14); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.28); padding: 24px; border-radius: 24px; box-shadow: 0 18px 55px rgba(0,0,0,0.22); }
-        .data-panel { flex: 2; min-width: 500px; background: rgba(255,255,255,0.14); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.28); padding: 24px; border-radius: 24px; box-shadow: 0 18px 55px rgba(0,0,0,0.22); }
+        .info-panel { flex: 1; min-width: 300px; background: rgba(255,255,255,0.07); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1.5px solid rgba(255,255,255,0.15); padding: 24px; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12); }
+        .data-panel { flex: 2; min-width: 500px; background: rgba(255,255,255,0.07); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1.5px solid rgba(255,255,255,0.15); padding: 24px; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12); }
         .readonly-box { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22); padding: 14px 18px; border-radius: 14px; color: rgba(255,255,255,0.85); margin-bottom:15px; }
         .readonly-box strong { color: rgba(255,255,255,0.65); font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.04em; }
         

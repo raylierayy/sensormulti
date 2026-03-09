@@ -9,6 +9,7 @@ require 'db_connection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Students - Sensor System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme-modern.css">
 </head>
 <body>
 
@@ -25,7 +26,7 @@ require 'db_connection.php';
         </header>
 
         <section class="content-section">
-            <div class="card">
+            <div class="glass-card-modern">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                     <h3 style="margin:0; color:#fff;">All Students</h3>
                     <a href="add_student.php" class="action-btn" style="padding: 8px 16px; font-size: 0.9em;">+ Add New</a>

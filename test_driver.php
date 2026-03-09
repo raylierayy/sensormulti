@@ -156,16 +156,17 @@ if ($student_id > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Test - Sensor System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme-modern.css">
     <style>
         .test-panel { display: flex; flex-direction: column; gap: 20px; }
         .monitor-row { display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap; }
 
         /* Glass sensor boxes */
         .sensor-box {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(18px) saturate(140%);
-            -webkit-backdrop-filter: blur(18px) saturate(140%);
-            border: 2px solid rgba(255,255,255,0.28);
+            background: rgba(5, 8, 22, 0.7);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 2px solid rgba(102,126,234,0.35);
             color: #fff;
             padding: 22px;
             border-radius: 20px;
@@ -173,7 +174,7 @@ if ($student_id > 0) {
             min-width: 240px;
             text-align: center;
             position: relative;
-            box-shadow: 0 14px 40px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.20);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(102,126,234,0.1);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         

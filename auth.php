@@ -47,295 +47,249 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Parking Aid Sensor System</title>
     <style>
-        /* ===== GLASS THEME FOR LOGIN ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            /* GLASS GRADIENT BACKGROUND */
-            background: linear-gradient(135deg,
-                #667eea 0%,
-                #764ba2 50%,
-                #f093fb 100%);
-            position: relative;
-            overflow: hidden;
+          font-family: 'Inter', 'Segoe UI', sans-serif;
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: 
+            radial-gradient(ellipse at 20% 50%, rgba(120,119,198,0.35) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(236,72,153,0.2) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 80%, rgba(6,182,212,0.2) 0%, transparent 50%),
+            #050816;
+          position: relative;
+          overflow: hidden;
         }
 
-        /* Radial glow overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 20% 50%,
-                rgba(255,255,255,0.15) 0%,
-                transparent 50%);
-            pointer-events: none;
+        /* Orbs */
+        .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+        .orb-1 { width:400px; height:400px; background:rgba(102,126,234,0.25); top:-10%; left:-5%; animation: float 8s ease-in-out infinite; }
+        .orb-2 { width:350px; height:350px; background:rgba(236,72,153,0.2); bottom:10%; right:-5%; animation: float 10s ease-in-out infinite 2s; }
+        .orb-3 { width:280px; height:280px; background:rgba(6,182,212,0.2); top:50%; left:60%; animation: float 7s ease-in-out infinite 4s; }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-30px) scale(1.05); }
         }
 
-        /* MAIN GLASS LOGIN CONTAINER */
+        @keyframes fadeInUp {
+          from { opacity:0; transform: translateY(30px); }
+          to { opacity:1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(102,126,234,0.5); }
+          50% { box-shadow: 0 0 40px rgba(102,126,234,0.8), 0 0 60px rgba(118,75,162,0.4); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        /* Grid pattern overlay */
+        body::after {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-size: 50px 50px;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .login-wrapper {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 440px;
+          padding: 0 20px;
+          animation: fadeInUp 0.6s ease both;
+        }
+
         .login-container {
-            width: 100%;
-            max-width: 420px;
-            padding: 50px 40px;
-
-            /* Glass morphism */
-            background: rgba(255,255,255,0.14);
-            backdrop-filter: blur(20px) saturate(140%);
-            -webkit-backdrop-filter: blur(20px) saturate(140%);
-
-            border: 1px solid rgba(255,255,255,0.28);
-            border-radius: 32px;
-
-            box-shadow:
-                0 24px 60px rgba(0,0,0,0.25),
-                inset 0 1px 0 rgba(255,255,255,0.25);
-
-            position: relative;
-            z-index: 1;
+          background: rgba(255,255,255,0.07);
+          backdrop-filter: blur(32px) saturate(180%);
+          -webkit-backdrop-filter: blur(32px) saturate(180%);
+          border: 1.5px solid rgba(255,255,255,0.15);
+          border-radius: 32px;
+          padding: 48px 40px;
+          box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+          position: relative;
+          overflow: hidden;
         }
 
-        /* Glass glow effect on container */
         .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at 50% 0%,
-                rgba(255,255,255,0.2) 0%,
-                transparent 50%
-            );
-            pointer-events: none;
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
         }
 
-        /* Logo/Icon Area */
-        .logo-section {
-            text-align: center;
-            margin-bottom: 35px;
+        .logo-section { text-align: center; margin-bottom: 36px; }
+
+        .logo-icon-wrap {
+          width: 72px; height: 72px;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          border-radius: 20px;
+          margin: 0 auto 16px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.8em;
+          box-shadow: 0 8px 32px rgba(102,126,234,0.5);
+          animation: pulse-glow 3s ease-in-out infinite;
         }
 
-        .logo-icon {
-            font-size: 4em;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        .login-title {
+          color: rgba(255,255,255,0.95);
+          font-size: 1.7em;
+          font-weight: 800;
+          margin: 0 0 6px;
+          letter-spacing: -0.02em;
         }
 
-        h2 {
-            text-align: center;
-            color: rgba(255,255,255,0.95);
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .login-subtitle {
+          color: rgba(255,255,255,0.45);
+          font-size: 0.9em;
         }
 
-        .subtitle {
-            text-align: center;
-            color: rgba(255,255,255,0.75);
-            font-size: 0.95em;
-            margin-bottom: 30px;
+        .form-group { margin-bottom: 20px; }
+
+        .form-label {
+          display: block;
+          margin-bottom: 8px;
+          color: rgba(255,255,255,0.7);
+          font-weight: 600;
+          font-size: 0.85em;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
         }
 
-        /* GLASS FORM GROUP */
-        .form-group {
-            margin-bottom: 24px;
-            position: relative;
+        .input-field {
+          width: 100%;
+          padding: 14px 20px;
+          background: rgba(255,255,255,0.07);
+          border: 1.5px solid rgba(255,255,255,0.12);
+          border-radius: 14px;
+          color: rgba(255,255,255,0.95);
+          font-size: 0.95em;
+          font-weight: 500;
+          transition: all 0.25s ease;
+          outline: none;
+          box-sizing: border-box;
+          font-family: 'Inter', sans-serif;
         }
 
-        /* Floating Label */
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255,255,255,0.85);
-            font-weight: 600;
-            font-size: 0.9em;
-            letter-spacing: 0.3px;
+        .input-field::placeholder { color: rgba(255,255,255,0.25); }
+
+        .input-field:focus {
+          border-color: rgba(102,126,234,0.7);
+          background: rgba(102,126,234,0.08);
+          box-shadow: 0 0 0 4px rgba(102,126,234,0.15);
         }
 
-        /* PILL INPUT FIELDS */
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 14px 20px;
-
-            /* Glass input */
-            background: rgba(255,255,255,0.85);
-            border: 1px solid rgba(255,255,255,0.50);
-            border-radius: 999px; /* PILL SHAPE */
-
-            font-size: 1em;
-            font-weight: 500;
-            color: #111827;
-
-            box-shadow:
-                0 8px 16px rgba(0,0,0,0.08),
-                inset 0 1px 0 rgba(255,255,255,0.60);
-
-            transition: all 0.3s ease;
-            outline: none;
+        .btn-login {
+          width: 100%;
+          padding: 15px;
+          margin-top: 8px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border: none;
+          border-radius: 14px;
+          color: white;
+          font-size: 1em;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          cursor: pointer;
+          box-shadow: 0 8px 24px rgba(102,126,234,0.5);
+          transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+          position: relative;
+          overflow: hidden;
+          font-family: 'Inter', sans-serif;
         }
 
-        input:focus {
-            background: rgba(255,255,255,0.95);
-            border-color: rgba(13,110,253,0.85);
-            box-shadow:
-                0 12px 24px rgba(13,110,253,0.25),
-                inset 0 1px 0 rgba(255,255,255,0.70);
-            transform: translateY(-1px);
+        .btn-login::before {
+          content: '';
+          position: absolute;
+          top: 0; left: -100%; width: 100%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+          transition: left 0.5s;
         }
 
-        input::placeholder {
-            color: rgba(17,24,39,0.45);
+        .btn-login:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 36px rgba(102,126,234,0.7);
         }
 
-        /* GLASS PILL BUTTON */
-        button[type="submit"] {
-            width: 100%;
-            padding: 16px;
-            margin-top: 10px;
+        .btn-login:hover::before { left: 100%; }
+        .btn-login:active { transform: translateY(0) scale(0.98); }
 
-            /* Glass button with accent */
-            background: rgba(13,110,253,0.85);
-            border: 1px solid rgba(255,255,255,0.60);
-            border-radius: 999px; /* PILL */
-
-            color: rgba(255,255,255,0.98);
-            font-size: 1.05em;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            backdrop-filter: blur(12px);
-            box-shadow:
-                0 12px 28px rgba(13,110,253,0.35),
-                inset 0 1px 0 rgba(255,255,255,0.25);
-
-            transition: all 0.2s ease;
+        .error-pill {
+          background: rgba(239,68,68,0.15);
+          border: 1px solid rgba(239,68,68,0.35);
+          color: #fca5a5;
+          padding: 12px 18px;
+          border-radius: 12px;
+          text-align: center;
+          margin-bottom: 20px;
+          font-weight: 600;
+          font-size: 0.9em;
+          backdrop-filter: blur(8px);
         }
 
-        button[type="submit"]:hover {
-            background: rgba(13,110,253,0.95);
-            transform: translateY(-2px);
-            box-shadow:
-                0 16px 36px rgba(13,110,253,0.45),
-                inset 0 1px 0 rgba(255,255,255,0.30);
+        .footer-link {
+          display: block;
+          text-align: center;
+          margin-top: 24px;
+          color: rgba(255,255,255,0.4);
+          text-decoration: none;
+          font-size: 0.85em;
+          transition: color 0.2s;
         }
 
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
+        .footer-link:hover { color: rgba(255,255,255,0.7); }
 
-        /* ERROR MESSAGE PILL */
-        .error {
-            background: rgba(239,68,68,0.85);
-            color: rgba(255,255,255,0.95);
-            padding: 12px 20px;
-            border-radius: 999px; /* PILL */
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 0.95em;
-
-            border: 1px solid rgba(255,255,255,0.25);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 20px rgba(239,68,68,0.35);
-        }
-
-        /* Footer Links */
-        .footer-links {
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .footer-links a {
-            color: rgba(255,255,255,0.80);
-            text-decoration: none;
-            font-size: 0.9em;
-            font-weight: 600;
-
-            padding: 8px 16px;
-            border-radius: 999px;
-
-            background: rgba(255,255,255,0.10);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.15);
-
-            transition: all 0.2s ease;
-            display: inline-block;
-        }
-
-        .footer-links a:hover {
-            background: rgba(255,255,255,0.18);
-            border-color: rgba(255,255,255,0.30);
-            transform: translateY(-1px);
-        }
-
-        /* Responsive */
         @media (max-width: 500px) {
-            .login-container {
-                margin: 20px;
-                padding: 40px 30px;
-            }
-
-            h2 {
-                font-size: 1.5em;
-            }
+          .login-container { padding: 36px 24px; }
+          .login-title { font-size: 1.4em; }
         }
     </style>
 </head>
 <body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
 
-<div class="login-container">
-    <div class="logo-section">
-        <div class="logo-icon">🅿️</div>
-        <h2>Parking Aid System</h2>
-        <p class="subtitle">Instructor Login Portal</p>
-    </div>
-
-    <?php if ($error): ?>
-        <div class="error">🚫 <?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
-
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text"
-                   id="username"
-                   name="username"
-                   placeholder="Enter your username"
-                   required
-                   autocomplete="username">
+<div class="login-wrapper">
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon-wrap">🅿️</div>
+            <h1 class="login-title">Parking Aid System</h1>
+            <p class="login-subtitle">Instructor Login Portal</p>
         </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password"
-                   id="password"
-                   name="password"
-                   placeholder="Enter your password"
-                   required
-                   autocomplete="current-password">
-        </div>
+        <?php if ($error): ?>
+            <div class="error-pill">🚫 <?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
 
-        <button type="submit">🚀 Sign In</button>
-    </form>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label class="form-label" for="username">Username</label>
+                <input type="text" id="username" name="username" class="input-field"
+                       placeholder="Enter your username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="input-field"
+                       placeholder="Enter your password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn-login">Sign In →</button>
+        </form>
 
-    <div class="footer-links">
-        <a href="dashboard.php">← Back to Dashboard</a>
+        <a href="dashboard.php" class="footer-link">← Back to Dashboard</a>
     </div>
 </div>
-
 </body>
 </html>

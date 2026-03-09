@@ -52,6 +52,7 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup Parking Test - Sensor System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme-modern.css">
     <style>
         .status-banner {
             display: flex; align-items: center; gap: 12px; padding: 14px 20px;
@@ -71,22 +72,26 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
         .sensor-chip.disconnected { background:rgba(252,165,165,0.18); border-color:rgba(252,165,165,0.55); color:#fecaca; }
         
         .setup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .setup-card { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.24); border-radius:16px; padding:20px; backdrop-filter:blur(14px); }
+        .setup-card { background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px; backdrop-filter:blur(24px) saturate(180%); }
         .setup-card h4 { margin:0 0 15px; color:#fff; font-size:1.05em; border-bottom:1px solid rgba(255,255,255,0.18); padding-bottom:10px; }
         
         .btn-proceed {
-            background: rgba(5,150,105,0.40); color: #d1fae5; border: 1px solid rgba(16,185,129,0.60);
-            border-radius: 999px; padding: 15px 30px; font-size: 1.1em; font-weight: 700; width: 100%;
-            cursor: pointer; margin-top: 20px; transition: transform 0.2s, background 0.2s;
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff; border: none;
+            border-radius: 16px; padding: 15px 30px; font-size: 1.1em; font-weight: 700; width: 100%;
+            cursor: pointer; margin-top: 20px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 8px 24px rgba(16,185,129,0.4);
         }
-        .btn-proceed:hover { transform: translateY(-2px); background: rgba(5,150,105,0.60); box-shadow: 0 6px 18px rgba(5,150,105,0.35); }
+        .btn-proceed:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(16,185,129,0.6); }
         .btn-proceed:disabled { opacity: 0.45; filter: grayscale(1); cursor: not-allowed; transform: none; box-shadow: none; }
 
         .btn-capture {
-            background: rgba(37,99,235,0.35); color: #bfdbfe; border: 1px solid rgba(99,179,237,0.55); padding: 10px 15px; border-radius: 999px; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.2s; backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, rgba(37,99,235,0.5), rgba(99,102,241,0.5));
+            color: #bfdbfe; border: 1px solid rgba(99,179,237,0.55);
+            padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%;
+            transition: all 0.2s; backdrop-filter: blur(8px);
         }
-        .btn-capture:hover { background: rgba(37,99,235,0.55); }
+        .btn-capture:hover { background: linear-gradient(135deg, rgba(37,99,235,0.7), rgba(99,102,241,0.7)); transform: translateY(-1px); }
         .captured-value { font-size: 1.5em; font-weight: bold; color: #5eead4; text-align: center; display: block; margin-top: 10px; }
     </style>
 </head>

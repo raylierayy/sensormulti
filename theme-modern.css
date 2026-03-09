@@ -465,7 +465,7 @@
    8. LAYOUT UTILITIES — BENTO GRID
    ========================================================================== */
 
-/* Default 3-column grid; wide items require ≥ 2 columns to avoid overflow */
+/* Default 3-column grid; wide items span exactly 2 of the 3 columns */
 .bento-grid {
   display:               grid;
   grid-template-columns: repeat(3, 1fr);
