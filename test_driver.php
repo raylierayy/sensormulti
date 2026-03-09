@@ -159,24 +159,106 @@ if ($student_id > 0) {
     <style>
         .test-panel { display: flex; flex-direction: column; gap: 20px; }
         .monitor-row { display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap; }
-        .sensor-box { background: #1a1a2e; color: #0f0; padding: 20px; border-radius: 10px; width: 30%; min-width: 250px; text-align: center; font-family: 'Courier New', monospace; border: 2px solid #333; position: relative; }
-        
-        .hw-label { position: absolute; top: 10px; left: 10px; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; font-size: 0.7em; }
-        .sensor-title { color: #facc15; font-size: 1.1em; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; }
-        .sensor-val { font-size: 3.5em; font-weight: bold; margin: 10px 0; }
-        .processed-val { font-size: 1.1em; color: #fff; margin-top: 5px; border-top: 1px solid #444; padding-top: 10px; }
-        .calib-data { background: rgba(255,255,255,0.1); padding: 5px; border-radius: 4px; font-size: 0.85em; color: #ddd; margin-top: 5px; }
+
+        /* Glass-morphism sensor card */
+        .sensor-box {
+            background: rgba(255,255,255,0.14);
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.25);
+            border-radius: 24px;
+            color: #1e3a8a;
+            padding: 24px 20px 20px;
+            width: 30%;
+            min-width: 250px;
+            text-align: center;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            transition: box-shadow 0.3s;
+        }
+        .sensor-box:hover {
+            box-shadow: 0 22px 55px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .hw-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(30,58,138,0.12);
+            color: #1e3a8a;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.72em;
+            font-weight: 600;
+            border: 1px solid rgba(30,58,138,0.18);
+        }
+        .sensor-title {
+            color: #1e3a8a;
+            font-size: 1.05em;
+            margin: 22px 0 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .sensor-val {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: color 0.4s ease;
+        }
+        .processed-val {
+            font-size: 1.05em;
+            color: #334155;
+            margin-top: 8px;
+            border-top: 1px solid rgba(30,58,138,0.15);
+            padding-top: 10px;
+            transition: color 0.4s ease;
+        }
+        .calib-data {
+            background: rgba(30,58,138,0.07);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.82em;
+            color: #475569;
+            margin-top: 6px;
+        }
+
+        /* Connection alert banner */
+        .connection-alert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(239,68,68,0.90);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 2px solid rgba(254,202,202,0.8);
+            border-radius: 999px;
+            padding: 12px 28px;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            z-index: 9999;
+            box-shadow: 0 8px 30px rgba(239,68,68,0.35);
+            white-space: nowrap;
+        }
+        .connection-alert.visible { display: block; }
 
         .control-panel { display: flex; gap: 20px; margin-top: 20px; justify-content: center; }
-        .btn-green { background: linear-gradient(135deg,#059669,#047857); color: white; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold; }
-        .btn-green:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(5,150,105,0.4); }
+        .btn-green { background: linear-gradient(135deg,#059669,#047857); color: white; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 999px; cursor: pointer; transition: 0.2s; font-weight: bold; box-shadow: 0 4px 14px rgba(5,150,105,0.3); }
+        .btn-green:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(5,150,105,0.45); }
         .btn-green:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .btn-cancel { background: #6b7280; color: white; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; }
-        .btn-cancel:hover { background: #4b5563; }
+        .btn-cancel { background: rgba(107,114,128,0.15); color: #374151; padding: 15px 30px; font-size: 1.2em; border: 1px solid rgba(107,114,128,0.3); border-radius: 999px; cursor: pointer; text-decoration: none; transition: 0.2s; font-weight: 600; backdrop-filter: blur(8px); }
+        .btn-cancel:hover { background: rgba(107,114,128,0.25); }
     </style>
 </head>
 <body>
+
+<!-- Connection loss alarm banner -->
+<div id="connectionAlert" class="connection-alert">⚠️ Sensor Connection Lost — Check Python Script</div>
 
 <div class="container">
     <?php include 'sidebar.php'; ?>
@@ -207,11 +289,13 @@ if ($student_id > 0) {
                             ['id' => '3', 'side' => $side_3, 'calib' => $calib_3, 'err' => $err_3]
                         ];
                         foreach($hwNodes as $hw):
-                            $title = "Sensor Module " . $hw['id'];
+                            $sideLabel = $hw['side'];
+                            // Format descriptive sensor name from assigned side
+                            $sensorTitle = ($sideLabel && $sideLabel !== 'None') ? htmlspecialchars($sideLabel) . ' Sensor' : 'Sensor ' . $hw['id'];
                         ?>
                         <div class="sensor-box">
-                            <span class="hw-label"><?= $title ?></span>
-                            <div class="sensor-title">Assigned: <?= $hw['side'] ?> Side</div>
+                            <span class="hw-label">Module #<?= $hw['id'] ?></span>
+                            <div class="sensor-title"><?= $sensorTitle ?></div>
                             <div class="sensor-val"><span id="val_<?= $hw['id'] ?>">--</span><span style="font-size:0.4em;">cm</span></div>
                             <div class="calib-data">Target: <?= $hw['calib'] ?>cm | Err Margin: <?= $hw['err'] ?>cm</div>
                             <div class="processed-val">
@@ -257,23 +341,37 @@ if ($student_id > 0) {
     
     let intervalId = null;
     let currentRaw = { 1: 0, 2: 0, 3: 0 };
+    let lastUpdateTime = Date.now();
+    let connectionLost = false;
+
+    // Returns a color based on accuracy percentage
+    function getAccuracyColor(accuracy) {
+        if (accuracy >= 90) return '#10b981'; // Green – perfect
+        if (accuracy >= 70) return '#f59e0b'; // Yellow – warning
+        return '#ef4444';                      // Red – danger
+    }
 
     function fetchSensor() {
         fetch('sensor.php')
             .then(r => r.text())
             .then(data => {
-                let parts = data.split(",");
-                parts.forEach(part => {
-                    let pair = part.trim().split("=");
-                    if (pair.length === 2) {
-                        let key = pair[0].trim().toUpperCase();
-                        let val = parseFloat(pair[1]);
-                        if (!isNaN(val) && val > 0 && CONFIG[key]) {
-                            currentRaw[key] = val;
+                if (data && data.trim().length > 0) {
+                    lastUpdateTime = Date.now();
+                    setConnectionAlarm(false);
+
+                    let parts = data.split(",");
+                    parts.forEach(part => {
+                        let pair = part.trim().split("=");
+                        if (pair.length === 2) {
+                            let key = pair[0].trim().toUpperCase();
+                            let val = parseFloat(pair[1]);
+                            if (!isNaN(val) && val > 0 && CONFIG[key]) {
+                                currentRaw[key] = val;
+                            }
                         }
-                    }
-                });
-                
+                    });
+                }
+
                 // --- UI DUMMY BYPASS FOR MISSING SENSORS ---
                 hwNodes.forEach(id => {
                     if (currentRaw[id] === 0) {
@@ -283,10 +381,33 @@ if ($student_id > 0) {
                 
                 updateDOM();
             })
-            .catch(e => console.error("Poll fail", e));
+            .catch(e => {
+                console.error("Poll fail", e);
+                checkConnectionTimeout();
+            });
+    }
+
+    function checkConnectionTimeout() {
+        if (Date.now() - lastUpdateTime > 3000) {
+            setConnectionAlarm(true);
+        }
+    }
+
+    function setConnectionAlarm(lost) {
+        const el = document.getElementById('connectionAlert');
+        if (lost && !connectionLost) {
+            connectionLost = true;
+            el.classList.add('visible');
+        } else if (!lost && connectionLost) {
+            connectionLost = false;
+            el.classList.remove('visible');
+        }
     }
 
     function updateDOM() {
+        // Check for stale data (no updates for 3+ seconds)
+        checkConnectionTimeout();
+
         hwNodes.forEach(hw => {
             const raw = currentRaw[hw];
             const calib = CONFIG[hw].calib;
@@ -301,6 +422,11 @@ if ($student_id > 0) {
                 
                 document.getElementById(`err_${hw}`).innerText = errRaw.toFixed(1);
                 document.getElementById(`acc_${hw}`).innerText = acc.toFixed(1);
+
+                // Apply color coding based on accuracy
+                const color = getAccuracyColor(acc);
+                document.getElementById(`val_${hw}`).style.color = color;
+                document.getElementById(`err_${hw}`).closest('.processed-val').style.color = color;
             }
         });
     }

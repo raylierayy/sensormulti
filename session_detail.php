@@ -41,13 +41,89 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
     <link rel="stylesheet" href="style.css">
     <style>
         .split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
-        .info-panel { flex: 1; min-width: 300px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb; }
-        .data-panel { flex: 2; min-width: 500px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb; }
-        .readonly-box { background: #f3f4f6; border: 1px solid #e5e7eb; padding: 15px; border-radius: 5px; color: #4b5563; margin-bottom:15px; }
-        
+
+        /* Glass-morphism panels */
+        .info-panel, .data-panel {
+            background: rgba(255,255,255,0.14);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            border: 1px solid rgba(255,255,255,0.28);
+            box-shadow: 0 18px 55px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.20);
+            border-radius: 24px;
+            padding: 24px;
+        }
+        .info-panel { flex: 1; min-width: 300px; }
+        .data-panel { flex: 2; min-width: 500px; }
+
+        .readonly-box { background: rgba(243,244,246,0.5); border: 1px solid rgba(229,231,235,0.6); padding: 15px; border-radius: 14px; color: #4b5563; margin-bottom:15px; }
+
+        /* Glass pill status badges */
+        .badge-ongoing {
+            display: inline-block;
+            background: rgba(254,240,138,0.55);
+            color: #854d0e;
+            padding: 5px 16px;
+            border-radius: 999px;
+            font-weight: bold;
+            border: 1px solid rgba(234,179,8,0.4);
+            backdrop-filter: blur(6px);
+            font-size: 0.92em;
+        }
+        .badge-completed {
+            display: inline-block;
+            background: rgba(187,247,208,0.55);
+            color: #166534;
+            padding: 5px 16px;
+            border-radius: 999px;
+            font-weight: bold;
+            border: 1px solid rgba(34,197,94,0.4);
+            backdrop-filter: blur(6px);
+            font-size: 0.92em;
+        }
+
+        /* Glass pill buttons */
+        .btn-glass {
+            display: block;
+            text-align: center;
+            padding: 11px 20px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 10px;
+        }
+        .btn-glass-back {
+            background: rgba(30,58,138,0.12);
+            color: #1e3a8a;
+            border: 1px solid rgba(30,58,138,0.25);
+        }
+        .btn-glass-back:hover { background: rgba(30,58,138,0.22); }
+        .btn-glass-add {
+            background: rgba(34,197,94,0.15);
+            color: #166534;
+            border: 1px solid rgba(34,197,94,0.35);
+        }
+        .btn-glass-add:hover { background: rgba(34,197,94,0.28); }
+        .btn-glass-danger {
+            background: rgba(185,28,28,0.12);
+            color: #b91c1c;
+            border: 1px solid rgba(185,28,28,0.28);
+            width: 100%;
+        }
+        .btn-glass-danger:hover { background: rgba(185,28,28,0.22); }
+        .btn-glass-pdf {
+            background: rgba(59,130,246,0.13);
+            color: #1d4ed8;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .btn-glass-pdf:hover { background: rgba(59,130,246,0.24); }
+
         .complex-table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
-        .complex-table th, .complex-table td { padding: 10px; text-align: center; border-bottom: 1px solid #eee; }
-        .complex-table th { background: #f8fbff; color: #1e3a8a; }
+        .complex-table th, .complex-table td { padding: 10px; text-align: center; border-bottom: 1px solid rgba(238,238,238,0.8); }
+        .complex-table th { background: rgba(248,251,255,0.7); color: #1e3a8a; }
         .side-Main { color: #3b82f6; font-weight: bold; }
     </style>
 </head>
@@ -75,9 +151,9 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                         
                         <strong>Status:</strong><br>
                         <?php if ($session['session_status'] === 'Ongoing'): ?>
-                            <span style="background:#fef08a; color:#854d0e; padding:4px 8px; border-radius:4px; font-weight:bold;">Ongoing</span>
+                            <span class="badge-ongoing">Ongoing</span>
                         <?php else: ?>
-                            <span style="background:#bbf7d0; color:#166534; padding:4px 8px; border-radius:4px; font-weight:bold;">Completed</span>
+                            <span class="badge-completed">Completed</span>
                         <?php endif; ?>
                         
                         <hr style="border:0; border-top:1px solid #ddd; margin: 10px 0;">
@@ -100,14 +176,15 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                         ?>
                     </div>
                     
-                    <a href="student_detail.php?id=<?= $session['studentID'] ?>" class="btn-cancel" style="display:block; text-align:center; padding:10px;">⬅ Back to Student</a>
+                    <a href="student_detail.php?id=<?= $session['studentID'] ?>" class="btn-glass btn-glass-back">⬅ Back to Student</a>
+                    
+                    <a href="generate_pdf.php?session_id=<?= $session_id ?>" class="btn-glass btn-glass-pdf">📄 Download PDF Report</a>
                     
                     <?php if ($session['session_status'] === 'Ongoing'): ?>
-                        <br>
-                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="action-btn" style="display:block; text-align:center; background:#22c55e; margin-bottom:10px;">+ Add Another Test</a>
+                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="btn-glass btn-glass-add">+ Add Another Test</a>
                         <form method="POST" action="">
                             <input type="hidden" name="end_session_inner" value="1">
-                            <button type="submit" class="action-btn" style="display:block; width:100%; text-align:center; background:#b91c1c;">Finish Session</button>
+                            <button type="submit" class="btn-glass btn-glass-danger">Finish Session</button>
                         </form>
                     <?php endif; ?>
                 </div>

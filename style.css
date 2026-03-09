@@ -203,3 +203,25 @@ th {
 tr:hover {
     background-color: #f5f9ff;
 }
+
+/* Glass-morphism utility classes */
+.btn-glass {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid rgba(30,58,138,0.25);
+    background: rgba(30,58,138,0.10);
+    color: #1e3a8a;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.btn-glass:hover {
+    background: rgba(30,58,138,0.20);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30,58,138,0.2);
+}
