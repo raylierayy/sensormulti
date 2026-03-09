@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student - Sensor System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme-modern.css">
 </head>
 <body>
 
@@ -45,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </header>
 
         <section class="content-section">
-            <div class="card" style="max-width: 600px;">
+            <div class="glass-card-modern" style="max-width: 600px;">
                 <h3>Enter Student Details</h3>
                 <?php if ($message): ?>
                     <div class="msg-success">✅ <?php echo htmlspecialchars($message); ?></div>
