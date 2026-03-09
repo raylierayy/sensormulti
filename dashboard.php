@@ -91,7 +91,7 @@ require 'session_check.php';
             <div class="glass-card-modern" style="padding:24px 28px;">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
                     <div style="display:flex; align-items:center; gap:14px;">
-                        <div style="width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 12px rgba(16,185,129,0.8);animation:pulse-glow 2s infinite;"></div>
+                        <div style="width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 12px rgba(16,185,129,0.8);animation:pulse-glow 2s infinite;" role="status" aria-label="System online"></div>
                         <div>
                             <div style="font-weight:700; color:#fff; font-size:0.95em;">ℹ️ System Status</div>
                             <div style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:2px;">All systems operational. Select an action to begin.</div>

@@ -90,6 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           100% { background-position: 200% center; }
         }
 
+        /* Reduced motion accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .orb { animation: none !important; }
+          .login-wrapper { animation: none !important; }
+          .logo-icon-wrap { animation: none !important; }
+        }
+
         /* Grid pattern overlay */
         body::after {
           content: '';

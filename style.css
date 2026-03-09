@@ -416,5 +416,5 @@ body {
 .action-btn:hover, .btn-glass:hover, .nav-buttons button:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(102,126,234,0.6);
-  background: linear-gradient(135deg, #7c93f5 0%, #8a5db5 100%) !important;
+  background: linear-gradient(135deg, #7c93f5 0%, #8a5db5 100%);
 }

@@ -626,6 +626,22 @@
   }
 }
 
+/* ── Reduced Motion (Accessibility) ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .orb { animation: none; }
+  .animate-float { animation: none; }
+  .animate-in { animation: none; opacity: 1; transform: none; }
+  .badge-ongoing { animation: none; }
+}
+
 /* ── Small Mobile (≤ 480px) ─────────────────────────────────── */
 @media (max-width: 480px) {
   :root {
