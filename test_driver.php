@@ -158,61 +158,122 @@ if ($student_id > 0) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
     <style>
+        /* ── Monitor layout ──────────────────────────────────── */
         .test-panel { display: flex; flex-direction: column; gap: 20px; }
-        .monitor-row { display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap; }
+        .monitor-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
-        /* Glass sensor boxes */
+        /* ── Sensor reading cards ────────────────────────────── */
         .sensor-box {
-            background: rgba(5, 8, 22, 0.7);
+            background: rgba(10, 14, 26, 0.75);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 2px solid rgba(102,126,234,0.35);
+            border: 2px solid rgba(99, 102, 241, 0.30);
             color: #fff;
-            padding: 22px;
+            padding: 24px 20px;
             border-radius: 20px;
-            width: 30%;
-            min-width: 240px;
             text-align: center;
             position: relative;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 20px rgba(102,126,234,0.1);
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.07),
+                0 0 24px rgba(99,102,241,0.08);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .hw-label { position: absolute; top: 10px; left: 12px; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.75); padding: 3px 8px; border-radius: 999px; font-size: 0.7em; font-weight: 600; backdrop-filter: blur(6px); }
-        .sensor-title { color: #fde68a; font-size: 1.05em; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-        .sensor-val { font-size: 3.2em; font-weight: 900; margin: 12px 0; transition: color 0.3s ease; }
-        .processed-val { font-size: 1em; color: rgba(255,255,255,0.82); margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.18); padding-top: 10px; }
-        .calib-data { background: rgba(255,255,255,0.10); padding: 6px 10px; border-radius: 10px; font-size: 0.82em; color: rgba(255,255,255,0.70); margin-top: 6px; }
 
-        /* Connection alarm banner */
+        .hw-label {
+            position: absolute; top: 10px; left: 12px;
+            background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.70);
+            padding: 3px 10px; border-radius: 999px; font-size: 0.68em; font-weight: 700;
+            backdrop-filter: blur(6px); letter-spacing: 0.04em;
+        }
+
+        .sensor-title {
+            color: #fde68a; font-size: 0.82em; margin: 32px 0 8px;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em;
+        }
+
+        .sensor-val {
+            font-size: 3.4em; font-weight: 900; line-height: 1;
+            margin: 8px 0 4px; transition: color 0.3s ease; letter-spacing: -0.02em;
+        }
+
+        .sensor-unit {
+            font-size: 0.35em; font-weight: 600; opacity: 0.70; vertical-align: super;
+        }
+
+        .calib-data {
+            background: rgba(255,255,255,0.07); padding: 7px 12px; border-radius: 10px;
+            font-size: 0.80em; color: rgba(255,255,255,0.55); margin-top: 10px; margin-bottom: 10px;
+        }
+
+        .processed-val {
+            font-size: 0.90em; color: rgba(255,255,255,0.75);
+            border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px;
+            margin-top: 8px; line-height: 1.7;
+        }
+
+        .accuracy-bar {
+            height: 4px; border-radius: 999px;
+            background: rgba(255,255,255,0.10); margin-top: 10px; overflow: hidden;
+        }
+
+        .accuracy-bar-fill {
+            height: 100%; border-radius: 999px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            transition: width 0.4s ease, background 0.3s ease;
+            width: 0%;
+        }
+
+        /* ── Connection alarm ────────────────────────────────── */
         #connection-alert {
             display: none;
-            background: rgba(239,68,68,0.30);
-            border: 2px solid rgba(239,68,68,0.70);
-            color: #fecaca;
+            background: rgba(239,68,68,0.18);
+            border: 2px solid rgba(239,68,68,0.60);
+            color: #fca5a5;
             padding: 14px 20px;
             border-radius: 14px;
             font-weight: 800;
-            font-size: 1.05em;
+            font-size: 1em;
             text-align: center;
             backdrop-filter: blur(10px);
-            animation: pulse-alert 1.2s infinite;
-        }
-        @keyframes pulse-alert {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.60; }
+            animation: pulse-alert 1.2s ease-in-out infinite;
         }
 
-        .control-panel { display: flex; gap: 20px; margin-top: 20px; justify-content: center; }
-        .btn-green {
-            background: rgba(5,150,105,0.35); color: #d1fae5;
-            border: 1px solid rgba(16,185,129,0.60);
-            padding: 14px 30px; font-size: 1.1em; border-radius: 999px; cursor: pointer;
-            transition: all 0.2s; font-weight: 800; backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(5,150,105,0.28);
+        @keyframes pulse-alert {
+            0%, 100% { opacity: 1;    }
+            50%       { opacity: 0.55; }
         }
-        .btn-green:hover { transform: translateY(-2px); background: rgba(5,150,105,0.55); box-shadow: 0 12px 30px rgba(5,150,105,0.38); }
-        .btn-green:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* ── Control buttons ─────────────────────────────────── */
+        .control-panel { display: flex; gap: 16px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-finalize {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff; border: none;
+            padding: 15px 36px; font-size: 1.05em;
+            border-radius: 999px; cursor: pointer;
+            font-weight: 800; font-family: 'Inter', sans-serif;
+            box-shadow: 0 8px 28px rgba(16,185,129,0.45);
+            transition: all 0.2s ease;
+        }
+        .btn-finalize:hover    { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(16,185,129,0.65); }
+        .btn-finalize:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Live indicator dot */
+        .live-indicator {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.35);
+            color: #fca5a5; padding: 5px 14px; border-radius: 999px; font-size: 0.80em; font-weight: 700;
+        }
+
+        .live-dot {
+            width: 8px; height: 8px; background: #ef4444; border-radius: 50%;
+            animation: pulse-alert 1.2s ease-in-out infinite;
+        }
+
+        @media (max-width: 900px) {
+            .monitor-row { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -222,8 +283,16 @@ if ($student_id > 0) {
 
     <main class="main-content">
         <header class="topbar">
-            <div class="welcome">🔴 Active Parking Test</div>
-            <div class="profile">Student: <strong><?= $student_name ?></strong></div>
+            <div class="welcome" style="display:flex; align-items:center; gap:10px;">
+                <span class="live-indicator">
+                    <span class="live-dot"></span> LIVE
+                </span>
+                Active Parking Test
+            </div>
+            <div class="profile">
+                <span style="color:rgba(255,255,255,0.55); font-size:0.88em;">Student:</span>
+                <strong style="color:#fff;"><?= $student_name ?></strong>
+            </div>
         </header>
 
         <section class="content-section">
@@ -231,11 +300,14 @@ if ($student_id > 0) {
                 <div class="msg-error">❌ <?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
-            <div class="card">
-                <h3 style="display: flex; justify-content: space-between;">
-                    Live Sensor Feed
-                    <span style="font-size: 0.8em; color: #ef4444; font-weight: normal;">● Recording active</span>
-                </h3>
+            <div class="card animate-in">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h3 style="margin:0;">📡 Live Sensor Feed</h3>
+                    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);color:#fca5a5;padding:5px 14px;border-radius:999px;font-size:0.78em;font-weight:700;">
+                        <span style="width:7px;height:7px;background:#ef4444;border-radius:50%;display:inline-block;animation:pulse-alert 1.2s infinite;"></span>
+                        Recording
+                    </span>
+                </div>
                 
                 <div class="test-panel">
                     <!-- Connection loss alarm -->
@@ -253,20 +325,29 @@ if ($student_id > 0) {
                         ?>
                         <div class="sensor-box" id="sensor-box-<?= $hw['id'] ?>">
                             <span class="hw-label"><?= $title ?></span>
-                            <div class="sensor-title">Assigned: <?= $hw['side'] ?> Side</div>
-                            <div class="sensor-val"><span id="val_<?= $hw['id'] ?>">--</span><span style="font-size:0.4em;">cm</span></div>
-                            <div class="calib-data">Target: <?= $hw['calib'] ?>cm | Err Margin: <?= $hw['err'] ?>cm</div>
+                            <div class="sensor-title">📍 <?= $hw['side'] ?> Side</div>
+                            <div class="sensor-val">
+                                <span id="val_<?= $hw['id'] ?>">--</span>
+                                <span class="sensor-unit">cm</span>
+                            </div>
+                            <div class="calib-data">
+                                🎯 Target: <strong><?= $hw['calib'] ?> cm</strong> &nbsp;|&nbsp;
+                                ±&nbsp;<?= $hw['err'] ?> cm
+                            </div>
                             <div class="processed-val">
-                                Error: <span id="err_<?= $hw['id'] ?>">--</span> cm<br>
-                                Accuracy: <span id="acc_<?= $hw['id'] ?>">--</span>%
+                                Error: <span id="err_<?= $hw['id'] ?>">--</span> cm&ensp;
+                                Accuracy: <strong><span id="acc_<?= $hw['id'] ?>">--</span>%</strong>
+                            </div>
+                            <div class="accuracy-bar">
+                                <div class="accuracy-bar-fill" id="bar_<?= $hw['id'] ?>"></div>
                             </div>
                         </div>
                         <?php endforeach; ?>
                     </div>
 
                     <div class="control-panel">
-                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="btn-cancel">Cancel Test</a>
-                        <button class="btn-green" id="finalizeBtn" onclick="finalizeTest()">Finalize Results</button>
+                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="btn-cancel" aria-label="Cancel test">← Cancel Test</a>
+                        <button class="btn-finalize" id="finalizeBtn" onclick="finalizeTest()" aria-label="Finalize and save test results">✅ Finalize Results</button>
                     </div>
                 </div>
 
@@ -383,7 +464,21 @@ if ($student_id > 0) {
                 const color = getAccuracyColor(acc);
                 document.getElementById(`val_${hw}`).style.color = color;
                 const box = document.getElementById(`sensor-box-${hw}`);
-                if (box) box.style.borderColor = color;
+                if (box) {
+                    box.style.borderColor = color;
+                    box.style.boxShadow = `0 8px 32px rgba(0,0,0,0.45), 0 0 24px ${color}33`;
+                }
+
+                // Accuracy bar fill
+                const bar = document.getElementById(`bar_${hw}`);
+                if (bar) {
+                    bar.style.width = acc.toFixed(1) + '%';
+                    bar.style.background = acc >= 90
+                        ? 'linear-gradient(90deg, #10b981, #06b6d4)'
+                        : acc >= 70
+                        ? 'linear-gradient(90deg, #f59e0b, #fbbf24)'
+                        : 'linear-gradient(90deg, #ef4444, #f87171)';
+                }
             }
         });
     }

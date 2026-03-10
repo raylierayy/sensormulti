@@ -9,6 +9,116 @@ require 'session_check.php';
     <title>Dashboard - Sensor System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
+    <style>
+        /* ── Hero card ────────────────────────────────────────── */
+        .hero-card {
+            padding: 32px 36px;
+            background: linear-gradient(135deg,
+                rgba(99,102,241,0.14) 0%,
+                rgba(139,92,246,0.10) 100%);
+            border-color: rgba(99,102,241,0.28);
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 18px 26px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 16px;
+            min-width: 120px;
+        }
+
+        .hero-stat-value {
+            font-size: 2em;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .hero-stat-label {
+            font-size: 0.72em;
+            color: rgba(255,255,255,0.40);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            font-weight: 700;
+        }
+
+        /* ── Quick action cards ──────────────────────────────── */
+        .action-card {
+            padding: 28px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.25s cubic-bezier(0.4,0,0.2,1),
+                        box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .action-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-bottom: 18px;
+        }
+
+        .action-card h3 {
+            color: #fff;
+            margin: 0 0 8px;
+            font-size: 1.05em;
+            font-weight: 700;
+        }
+
+        .action-card p {
+            color: rgba(255,255,255,0.48);
+            margin: 0 0 20px;
+            font-size: 0.85em;
+            line-height: 1.55;
+        }
+
+        .action-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 0.82em;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* ── Status bar ───────────────────────────────────────── */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 26px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
+            animation: status-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes status-pulse {
+            0%  { box-shadow: 0 0 0 0 rgba(16,185,129,0.60); }
+            70% { box-shadow: 0 0 0 8px rgba(16,185,129,0.00); }
+            100%{ box-shadow: 0 0 0 0 rgba(16,185,129,0.00); }
+        }
+
+        /* ── Counter animation ───────────────────────────────── */
+        .counter { display: inline-block; }
+    </style>
 </head>
 <body>
 
@@ -17,94 +127,160 @@ require 'session_check.php';
 
     <main class="main-content">
         <!-- Decorative orbs -->
-        <div class="orb orb-purple" style="position:fixed; top:5%; right:10%; width:400px; height:400px; z-index:0; pointer-events:none;"></div>
-        <div class="orb orb-cyan" style="position:fixed; bottom:10%; left:15%; width:350px; height:350px; z-index:0; pointer-events:none;"></div>
+        <div class="orb orb-purple" style="position:fixed;top:4%;right:8%;width:380px;height:380px;z-index:0;pointer-events:none;" aria-hidden="true"></div>
+        <div class="orb orb-cyan"   style="position:fixed;bottom:8%;left:14%;width:320px;height:320px;z-index:0;pointer-events:none;" aria-hidden="true"></div>
 
-        <header class="topbar" style="position:relative; z-index:1;">
-            <div class="welcome" style="font-size:1.1em; font-weight:700; display:flex; align-items:center; gap:10px;">
-                <span style="font-size:1.3em;">👋</span>
-                Welcome back, <span style="background: linear-gradient(135deg,#667eea,#f093fb); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+        <header class="topbar" style="position:relative;z-index:1;">
+            <div class="welcome" style="display:flex;align-items:center;gap:10px;">
+                <span aria-hidden="true">👋</span>
+                Welcome back,
+                <span style="background:linear-gradient(135deg,#6366f1,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">
+                    <?php echo htmlspecialchars($_SESSION['username']); ?>
+                </span>
             </div>
-            <div class="profile" style="display:flex; gap:12px; align-items:center;">
-                <div style="width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;cursor:pointer;transition:all 0.2s;" title="Notifications">🔔</div>
-                <div style="width:36px;height:36px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1em;cursor:pointer;box-shadow:0 4px 12px rgba(102,126,234,0.4);" title="Profile">👤</div>
+            <div class="profile">
+                <div style="width:36px;height:36px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;cursor:pointer;" title="Notifications" aria-label="Notifications">🔔</div>
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1em;cursor:pointer;box-shadow:0 4px 12px rgba(99,102,241,0.45);" title="Profile" aria-label="Profile">👤</div>
             </div>
         </header>
 
-        <section class="dashboard" style="position:relative; z-index:1;">
-            <!-- Hero greeting -->
-            <div class="glass-card-modern" style="padding:28px 32px; background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%); border-color: rgba(102,126,234,0.3);">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <section class="dashboard" style="position:relative;z-index:1;">
+
+            <!-- ── Hero ──────────────────────────────────────────── -->
+            <div class="glass-card-modern hero-card animate-in">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
                     <div>
-                        <h1 style="font-size:1.8em; font-weight:900; color:#fff; margin:0 0 6px; letter-spacing:-0.02em;">
-                            Parking Aid <span style="background: linear-gradient(135deg,#667eea,#f093fb); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Sensor System</span>
+                        <h1 style="font-size:1.9em;font-weight:900;color:#fff;margin:0 0 8px;letter-spacing:-0.025em;line-height:1.2;">
+                            Parking Aid
+                            <span style="background:linear-gradient(135deg,#6366f1,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                                Sensor System
+                            </span>
                         </h1>
-                        <p style="color:rgba(255,255,255,0.55); margin:0; font-size:0.95em;">Real-time parking sensor monitoring &amp; student management</p>
+                        <p style="color:rgba(255,255,255,0.48);margin:0;font-size:0.92em;">
+                            Real-time parking sensor monitoring &amp; student management
+                        </p>
                     </div>
-                    <div style="display:flex; gap:16px;">
-                        <div style="text-align:center; padding:16px 24px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:16px;">
-                            <div style="font-size:1.8em; font-weight:900; color:#667eea;">3</div>
-                            <div style="font-size:0.75em; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:0.05em;">Sensors</div>
+                    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+                        <div class="hero-stat">
+                            <div class="hero-stat-value" style="color:#6366f1;">
+                                <span class="counter" data-target="3">0</span>
+                            </div>
+                            <div class="hero-stat-label">Sensors</div>
                         </div>
-                        <div style="text-align:center; padding:16px 24px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:16px;">
-                            <div style="font-size:1.8em; font-weight:900; color:#10b981;">Live</div>
-                            <div style="font-size:0.75em; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:0.05em;">Status</div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value" style="color:#10b981;">Live</div>
+                            <div class="hero-stat-label">Status</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions Bento Grid -->
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
+            <!-- ── Quick actions bento grid ──────────────────── -->
+            <div class="bento-grid" style="grid-template-columns:repeat(3,1fr);" role="list">
+
                 <!-- Add Student -->
-                <div class="glass-card-modern hover-lift" style="padding:28px; cursor:pointer;" onclick="window.location.href='add_student.php'">
-                    <div style="width:52px;height:52px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5em;margin-bottom:16px;box-shadow:0 8px 20px rgba(102,126,234,0.4);">➕</div>
-                    <h3 style="color:#fff;margin:0 0 8px;font-size:1.1em;font-weight:700;">Add New Student</h3>
-                    <p style="color:rgba(255,255,255,0.5);margin:0;font-size:0.85em;line-height:1.5;">Register a new student for parking tests</p>
-                    <div style="margin-top:20px;">
-                        <span style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:8px 18px;border-radius:10px;font-size:0.82em;font-weight:700;box-shadow:0 4px 12px rgba(102,126,234,0.35);">Get Started →</span>
-                    </div>
-                </div>
-                
+                <a href="add_student.php"
+                   class="glass-card-modern action-card animate-in hover-lift"
+                   style="animation-delay:60ms;"
+                   role="listitem"
+                   aria-label="Add a new student">
+                    <div class="action-icon"
+                         style="background:linear-gradient(135deg,#6366f1,#8b5cf6);
+                                box-shadow:0 8px 22px rgba(99,102,241,0.45);">➕</div>
+                    <h3>Add New Student</h3>
+                    <p>Register a new student for parking assessment tests.</p>
+                    <span class="action-cta"
+                          style="background:linear-gradient(135deg,#6366f1,#8b5cf6);
+                                 box-shadow:0 4px 12px rgba(99,102,241,0.38);">
+                        Get Started →
+                    </span>
+                </a>
+
                 <!-- Manage Students -->
-                <div class="glass-card-modern hover-lift" style="padding:28px; cursor:pointer;" onclick="window.location.href='students.php'">
-                    <div style="width:52px;height:52px;background:linear-gradient(135deg,#06b6d4,#0891b2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5em;margin-bottom:16px;box-shadow:0 8px 20px rgba(6,182,212,0.4);">👥</div>
-                    <h3 style="color:#fff;margin:0 0 8px;font-size:1.1em;font-weight:700;">Manage Students</h3>
-                    <p style="color:rgba(255,255,255,0.5);margin:0;font-size:0.85em;line-height:1.5;">View scores, grades, and student history</p>
-                    <div style="margin-top:20px;">
-                        <span style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;padding:8px 18px;border-radius:10px;font-size:0.82em;font-weight:700;box-shadow:0 4px 12px rgba(6,182,212,0.35);">View All →</span>
-                    </div>
-                </div>
-                
+                <a href="students.php"
+                   class="glass-card-modern action-card animate-in hover-lift"
+                   style="animation-delay:120ms;"
+                   role="listitem"
+                   aria-label="Manage all students">
+                    <div class="action-icon"
+                         style="background:linear-gradient(135deg,#06b6d4,#0891b2);
+                                box-shadow:0 8px 22px rgba(6,182,212,0.45);">👥</div>
+                    <h3>Manage Students</h3>
+                    <p>View scores, assign grades, and review test histories.</p>
+                    <span class="action-cta"
+                          style="background:linear-gradient(135deg,#06b6d4,#0891b2);
+                                 box-shadow:0 4px 12px rgba(6,182,212,0.38);">
+                        View All →
+                    </span>
+                </a>
+
                 <!-- Start Test -->
-                <div class="glass-card-modern hover-lift" style="padding:28px; cursor:pointer; background:linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(6,182,212,0.08) 100%); border-color:rgba(16,185,129,0.3);" onclick="window.location.href='calibrate.php'">
-                    <div style="width:52px;height:52px;background:linear-gradient(135deg,#10b981,#06b6d4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5em;margin-bottom:16px;box-shadow:0 8px 20px rgba(16,185,129,0.4);">🚗</div>
-                    <h3 style="color:#fff;margin:0 0 8px;font-size:1.1em;font-weight:700;">Start New Test</h3>
-                    <p style="color:rgba(255,255,255,0.5);margin:0;font-size:0.85em;line-height:1.5;">Set up sensors and conduct a parking test</p>
-                    <div style="margin-top:20px;">
-                        <span style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff;padding:8px 18px;border-radius:10px;font-size:0.82em;font-weight:700;box-shadow:0 4px 12px rgba(16,185,129,0.35);">Start Now →</span>
+                <a href="calibrate.php"
+                   class="glass-card-modern action-card animate-in hover-lift"
+                   style="animation-delay:180ms;
+                          background:linear-gradient(135deg,rgba(16,185,129,0.10) 0%,rgba(6,182,212,0.07) 100%);
+                          border-color:rgba(16,185,129,0.28);"
+                   role="listitem"
+                   aria-label="Start a new parking test">
+                    <div class="action-icon"
+                         style="background:linear-gradient(135deg,#10b981,#06b6d4);
+                                box-shadow:0 8px 22px rgba(16,185,129,0.45);">🚗</div>
+                    <h3>Start New Test</h3>
+                    <p>Configure sensors and conduct a live parking test session.</p>
+                    <span class="action-cta"
+                          style="background:linear-gradient(135deg,#10b981,#06b6d4);
+                                 box-shadow:0 4px 12px rgba(16,185,129,0.38);">
+                        Start Now →
+                    </span>
+                </a>
+
+            </div>
+
+            <!-- ── System status ──────────────────────────────── -->
+            <div class="glass-card-modern animate-in" style="animation-delay:240ms;">
+                <div class="status-bar">
+                    <div style="display:flex;align-items:center;gap:14px;">
+                        <div class="status-dot" role="status" aria-label="System online"></div>
+                        <div>
+                            <div style="font-weight:700;color:#fff;font-size:0.95em;">ℹ️ System Status</div>
+                            <div style="font-size:0.82em;color:rgba(255,255,255,0.42);margin-top:2px;">
+                                All systems operational. Select an action above to begin.
+                            </div>
+                        </div>
                     </div>
+                    <span style="background:rgba(16,185,129,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.30);padding:5px 14px;border-radius:999px;font-size:0.78em;font-weight:700;">
+                        ● Online
+                    </span>
                 </div>
             </div>
 
-            <!-- System Status -->
-            <div class="glass-card-modern" style="padding:24px 28px;">
-                <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <div style="display:flex; align-items:center; gap:14px;">
-                        <div style="width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 12px rgba(16,185,129,0.8);animation:pulse-glow 2s infinite;" role="status" aria-label="System online"></div>
-                        <div>
-                            <div style="font-weight:700; color:#fff; font-size:0.95em;">ℹ️ System Status</div>
-                            <div style="font-size:0.82em; color:rgba(255,255,255,0.5); margin-top:2px;">All systems operational. Select an action to begin.</div>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <span style="background:rgba(16,185,129,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3);padding:5px 14px;border-radius:999px;font-size:0.78em;font-weight:700;">● Online</span>
-                    </div>
-                </div>
-            </div>
         </section>
     </main>
 </div>
+
+<script>
+/* Animated counters — clean up timers when the page is hidden/unloaded */
+(function () {
+    const timers = [];
+
+    document.querySelectorAll('.counter').forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 20));
+        const id = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = current;
+            if (current >= target) clearInterval(id);
+        }, 60);
+        timers.push(id);
+    });
+
+    /* Clean up on page hide/unload to prevent memory leaks */
+    function clearAll() { timers.forEach(id => clearInterval(id)); }
+    window.addEventListener('pagehide', clearAll);
+    window.addEventListener('beforeunload', clearAll);
+})();
+</script>
 
 </body>
 </html>
