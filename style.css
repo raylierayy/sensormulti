@@ -575,6 +575,21 @@ select {
   cursor: pointer;
 }
 
+/* ── Dark Mode Option Elements ────────────────────────────────────── */
+/* :root defines dark mode defaults; [data-theme="light"] overrides below */
+:root .form-control option,
+:root select.form-control option,
+:root .form-group select option,
+:root select option {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+:root .form-group select,
+:root select {
+  color-scheme: dark;
+}
+
 .form-group textarea,
 textarea {
   border-radius: var(--radius-md);
@@ -609,6 +624,7 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.9);
   color: #1e293b;
   border: 1px solid rgba(100, 116, 139, 0.2);
+  color-scheme: light;
 }
 
 [data-theme="light"] .form-control option,
