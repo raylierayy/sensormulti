@@ -171,6 +171,38 @@ require 'db_connection.php';
             box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
             background: rgba(99,102,241,0.07) !important;
         }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .students-table thead tr {
+            background: rgba(99,102,241,0.05);
+        }
+        [data-theme="light"] .students-table th {
+            color: #6b7280;
+            border-bottom-color: rgba(99,102,241,0.12);
+        }
+        [data-theme="light"] .students-table tbody tr {
+            border-bottom-color: rgba(0,0,0,0.05);
+        }
+        [data-theme="light"] .students-table td {
+            color: #1f2937;
+        }
+        [data-theme="light"] .student-name {
+            color: #111827;
+        }
+        [data-theme="light"] .student-instructor {
+            color: #6b7280;
+        }
+        [data-theme="light"] .empty-state {
+            color: #6b7280;
+        }
+        [data-theme="light"] .search-input {
+            background: rgba(255,255,255,0.90) !important;
+            border-color: rgba(99,102,241,0.20) !important;
+            color: #1f2937 !important;
+        }
+        [data-theme="light"] .search-input::placeholder {
+            color: #9ca3af !important;
+        }
     </style>
 </head>
 <body>

@@ -209,6 +209,69 @@
     font-size: 0.72em;
     margin-top: 1px;
 }
+
+/* ── Light Mode Overrides ── */
+[data-theme="light"] .sidebar {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-right-color: rgba(99, 102, 241, 0.15) !important;
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .sidebar-logo {
+    border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .sidebar-logo-text h2 {
+    color: #111827 !important;
+}
+
+[data-theme="light"] .sidebar-logo-text p {
+    color: #6b7280 !important;
+}
+
+[data-theme="light"] .sidebar-section-label {
+    color: #9ca3af !important;
+}
+
+[data-theme="light"] .sidebar nav a,
+[data-theme="light"] .sidebar nav form button {
+    color: #4b5563 !important;
+}
+
+[data-theme="light"] .sidebar nav a:hover,
+[data-theme="light"] .sidebar nav form button:hover {
+    background: rgba(99, 102, 241, 0.08) !important;
+    color: #111827 !important;
+}
+
+[data-theme="light"] .sidebar nav a.active {
+    color: #4f46e5 !important;
+}
+
+[data-theme="light"] .sidebar-nav-icon {
+    background: rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .sidebar nav a:hover .sidebar-nav-icon,
+[data-theme="light"] .sidebar nav a.active .sidebar-nav-icon {
+    background: rgba(99, 102, 241, 0.15) !important;
+}
+
+[data-theme="light"] .sidebar-logout {
+    border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .sidebar-user {
+    border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .sidebar-user-name {
+    color: #111827 !important;
+}
+
+[data-theme="light"] .sidebar-user-role {
+    color: #6b7280 !important;
+}
 </style>
 
 <aside class="sidebar" role="navigation" aria-label="Main navigation">
