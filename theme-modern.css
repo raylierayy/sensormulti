@@ -569,7 +569,193 @@
 }
 
 /* ==========================================================================
-   12. CUSTOM SCROLLBAR
+   12. CONTENT SECTION — VISUAL FIX & LAYOUT
+   ========================================================================== */
+
+/*
+ * .content-section is the main page wrapper used in add_student.php,
+ * students.php, calibrate.php, etc. This ensures cards are properly
+ * displayed and centered glass form cards work correctly.
+ */
+.content-section {
+  display:        flex;
+  flex-direction: column;
+  gap:            20px;
+  width:          100%;
+}
+
+/* Centered form card utility: glass-card-modern with max-width auto-centers */
+.content-section .form-center {
+  max-width:  640px;
+  width:      100%;
+  margin:     0 auto;
+}
+
+/* Full-width panels inside content-section */
+.content-section .panel-full {
+  width: 100%;
+}
+
+/* Section header with action button */
+.section-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   6px;
+  flex-wrap:       wrap;
+  gap:             12px;
+}
+
+.section-title {
+  font-size:      1.05em;
+  font-weight:    700;
+  color:          var(--text-primary);
+  margin:         0;
+  letter-spacing: -0.01em;
+}
+
+/* Panel title used in split layouts */
+.panel-title {
+  margin:          0 0 18px;
+  color:           var(--text-primary);
+  border-bottom:   1px solid var(--border-subtle);
+  padding-bottom:  14px;
+  font-weight:     700;
+  font-size:       1em;
+  letter-spacing:  -0.01em;
+}
+
+/* ── Split layout for two-panel pages (student_detail, session_detail) ── */
+.split-layout {
+  display:   flex;
+  gap:       20px;
+  flex-wrap: wrap;
+}
+
+.split-layout .info-panel,
+.split-layout .edit-panel {
+  flex:       1;
+  min-width:  280px;
+  max-width:  380px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border:       1.5px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding:       24px;
+  box-shadow:    var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.10);
+  position:      relative;
+}
+
+.split-layout .data-panel {
+  flex:         2;
+  min-width:    340px;
+  background:   rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border:        1.5px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding:       24px;
+  box-shadow:    var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.10);
+  overflow-x:    auto;
+}
+
+/* Readonly info boxes inside info/edit panels */
+.readonly-box {
+  background:    rgba(255, 255, 255, 0.07);
+  border:        1px solid var(--border-light);
+  padding:       14px 16px;
+  border-radius: var(--radius-md);
+  color:         var(--text-secondary);
+  margin-bottom: 14px;
+  font-size:     0.9em;
+  line-height:   1.6;
+}
+
+.readonly-box strong {
+  display:        block;
+  color:          var(--text-muted);
+  font-size:      0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom:  4px;
+  font-weight:    700;
+}
+
+.readonly-box .value-primary {
+  font-size:   1.1em;
+  color:       var(--neon-blue);
+  font-weight: 700;
+}
+
+/* ── Grade result boxes ─────────────────────────────────────────── */
+.grade-pass {
+  background:     rgba(16, 185, 129, 0.15);
+  border:         1.5px solid rgba(16, 185, 129, 0.45);
+  color:          #d1fae5;
+  padding:        16px;
+  border-radius:  var(--radius-md);
+  text-align:     center;
+  font-size:      1.2em;
+  font-weight:    800;
+  margin-bottom:  18px;
+  box-shadow:     0 0 20px rgba(16,185,129,0.25);
+}
+
+.grade-fail {
+  background:     rgba(239, 68, 68, 0.15);
+  border:         1.5px solid rgba(239, 68, 68, 0.45);
+  color:          #fee2e2;
+  padding:        16px;
+  border-radius:  var(--radius-md);
+  text-align:     center;
+  font-size:      1.2em;
+  font-weight:    800;
+  margin-bottom:  18px;
+  box-shadow:     0 0 20px rgba(239,68,68,0.20);
+}
+
+/* ── Complex table used in session/student detail ───────────────── */
+.complex-table {
+  width:           100%;
+  border-collapse: collapse;
+  font-size:       0.85em;
+}
+
+.complex-table th,
+.complex-table td {
+  padding:       10px 12px;
+  text-align:    center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color:         rgba(255, 255, 255, 0.88);
+}
+
+.complex-table th {
+  background:     rgba(255, 255, 255, 0.07);
+  color:          rgba(255, 255, 255, 0.55);
+  font-weight:    700;
+  font-size:      0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.complex-table tr.sensor-group-start {
+  border-top: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.complex-table tr.averages-row {
+  background:  rgba(255, 255, 255, 0.08);
+  font-weight: bold;
+  border-top:  2px solid rgba(147, 197, 253, 0.35);
+}
+
+.side-Main {
+  color:       #93c5fd;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   13. CUSTOM SCROLLBAR
    ========================================================================== */
 
 ::-webkit-scrollbar                { width: 6px; height: 6px; }

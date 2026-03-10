@@ -77,19 +77,36 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
     <style>
-        .split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
-        .edit-panel { flex: 1; min-width: 300px; background: rgba(255,255,255,0.07); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1.5px solid rgba(255,255,255,0.15); padding: 24px; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12); }
-        .data-panel { flex: 2; min-width: 500px; background: rgba(255,255,255,0.07); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1.5px solid rgba(255,255,255,0.15); padding: 24px; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12); }
-        .readonly-box { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); padding: 12px 16px; border-radius: 14px; color: rgba(255,255,255,0.82); margin-bottom:15px; }
-        
-        .grade-pass { background: rgba(16,185,129,0.20); border: 1px solid rgba(16,185,129,0.50); color: #d1fae5; padding: 14px; border-radius: 14px; text-align:center; font-size: 1.2em; font-weight:bold; }
-        .grade-fail { background: rgba(239,68,68,0.20); border: 1px solid rgba(239,68,68,0.50); color: #fee2e2; padding: 14px; border-radius: 14px; text-align:center; font-size: 1.2em; font-weight:bold; }
-        
-        .complex-table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
-        .complex-table th, .complex-table td { padding: 10px 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.90); }
-        .complex-table th { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.95); font-weight: 700; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.04em; }
-        .side-Main { color: #93c5fd; font-weight: bold; }
-        .panel-title { margin-top:0; color:#fff; border-bottom: 1px solid rgba(255,255,255,0.18); padding-bottom: 12px; margin-bottom: 16px; font-weight:700; }
+        /* Classes defined in theme-modern.css: split-layout, info-panel, edit-panel,
+           data-panel, panel-title, readonly-box, grade-pass, grade-fail,
+           complex-table, side-Main */
+
+        /* Sessions table enhancements */
+        .sessions-table th, .sessions-table td {
+            text-align: center;
+        }
+        .sessions-table td:first-child { font-weight: 700; color: #a5b4fc; }
+
+        /* Start session btn variant */
+        .btn-start-session {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 20px;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff !important;
+            border-radius: 11px;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.40);
+        }
+
+        .btn-start-session:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(16,185,129,0.60);
+        }
     </style>
 </head>
 <body>
@@ -100,7 +117,11 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
     <main class="main-content">
         <header class="topbar">
             <div class="welcome">
-                <a href="students.php" style="text-decoration:none; color:inherit;">Students</a> › Grading Panel
+                <a href="students.php">Students</a> › Grading Panel
+            </div>
+            <div class="profile">
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Notifications">🔔</div>
+                <div style="width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9em;" title="Profile">👤</div>
             </div>
         </header>
 
@@ -171,11 +192,13 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                     
                     <?php if (!$is_finished): ?>
                         <div style="margin-bottom: 15px;">
-                            <a href="calibrate.php?student_id=<?= $student['ID'] ?>" class="action-btn" style="background: #22c55e;">+ Start New Session</a>
+                            <a href="calibrate.php?student_id=<?= $student['ID'] ?>" class="btn-start-session" aria-label="Start new testing session">
+                                ＋ Start New Session
+                            </a>
                         </div>
                     <?php endif; ?>
 
-                    <table class="complex-table">
+                    <table class="complex-table sessions-table">
                         <thead>
                             <tr>
                                 <th>Session ID</th>

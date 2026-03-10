@@ -54,45 +54,98 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
     <style>
+        /* ── Status banners ──────────────────────────────────── */
         .status-banner {
             display: flex; align-items: center; gap: 12px; padding: 14px 20px;
             border-radius: 14px; font-weight: 600; margin-bottom: 20px;
         }
-        .status-banner.checking  { background:rgba(147,197,253,0.20); border:1px solid rgba(147,197,253,0.50); color:#bfdbfe; }
-        .status-banner.error     { background:rgba(252,165,165,0.18); border:1px solid rgba(252,165,165,0.50); color:#fecaca; }
-        .status-banner.ok        { background:rgba(134,239,172,0.18); border:1px solid rgba(134,239,172,0.50); color:#bbf7d0; }
+        .status-banner.checking  { background:rgba(147,197,253,0.15); border:1px solid rgba(147,197,253,0.40); color:#bfdbfe; }
+        .status-banner.error     { background:rgba(252,165,165,0.12); border:1px solid rgba(252,165,165,0.40); color:#fecaca; }
+        .status-banner.ok        { background:rgba(134,239,172,0.12); border:1px solid rgba(134,239,172,0.40); color:#bbf7d0; }
 
-        .sensor-check-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        /* ── Sensor check chips ──────────────────────────────── */
+        .sensor-check-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
         .sensor-chip {
-            border-radius: 14px; padding: 16px; text-align: center; font-weight: 700;
-            border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.10);
-            color: rgba(255,255,255,0.80);
+            border-radius: 14px; padding: 16px 12px; text-align: center; font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.75); transition: all 0.3s ease;
         }
-        .sensor-chip.connected    { background:rgba(134,239,172,0.18); border-color:rgba(134,239,172,0.55); color:#bbf7d0; }
-        .sensor-chip.disconnected { background:rgba(252,165,165,0.18); border-color:rgba(252,165,165,0.55); color:#fecaca; }
-        
-        .setup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .setup-card { background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px; backdrop-filter:blur(24px) saturate(180%); }
-        .setup-card h4 { margin:0 0 15px; color:#fff; font-size:1.05em; border-bottom:1px solid rgba(255,255,255,0.18); padding-bottom:10px; }
-        
+        .sensor-chip.connected    { background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.45); color:#6ee7b7; }
+        .sensor-chip.disconnected { background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.45); color:#fca5a5; }
+        .sensor-chip .chip-icon   { font-size:1.5em; display:block; margin-bottom:6px; }
+
+        /* ── 3-sensor setup grid ─────────────────────────────── */
+        .setup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; }
+        .setup-card {
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 18px; padding: 20px;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            transition: border-color 0.3s ease;
+        }
+        .setup-card h4 {
+            margin: 0 0 14px; color: #fff; font-size: 0.98em; font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        /* ── Proceed button ──────────────────────────────────── */
         .btn-proceed {
             background: linear-gradient(135deg, #10b981, #06b6d4);
             color: #fff; border: none;
-            border-radius: 16px; padding: 15px 30px; font-size: 1.1em; font-weight: 700; width: 100%;
-            cursor: pointer; margin-top: 20px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            box-shadow: 0 8px 24px rgba(16,185,129,0.4);
+            border-radius: 16px; padding: 16px 30px; font-size: 1.05em; font-weight: 700; width: 100%;
+            cursor: pointer; margin-top: 20px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 8px 28px rgba(16,185,129,0.40);
+            font-family: 'Inter', sans-serif;
         }
-        .btn-proceed:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(16,185,129,0.6); }
-        .btn-proceed:disabled { opacity: 0.45; filter: grayscale(1); cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-proceed:hover        { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(16,185,129,0.60); }
+        .btn-proceed:disabled     { opacity: 0.40; filter: grayscale(0.7); cursor: not-allowed; transform: none; box-shadow: none; }
 
+        /* ── Capture button ──────────────────────────────────── */
         .btn-capture {
-            background: linear-gradient(135deg, rgba(37,99,235,0.5), rgba(99,102,241,0.5));
-            color: #bfdbfe; border: 1px solid rgba(99,179,237,0.55);
-            padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%;
-            transition: all 0.2s; backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, rgba(37,99,235,0.45), rgba(99,102,241,0.45));
+            color: #bfdbfe; border: 1px solid rgba(99,102,241,0.45);
+            padding: 10px 15px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%;
+            transition: all 0.2s ease; backdrop-filter: blur(8px); font-family: 'Inter', sans-serif;
         }
-        .btn-capture:hover { background: linear-gradient(135deg, rgba(37,99,235,0.7), rgba(99,102,241,0.7)); transform: translateY(-1px); }
-        .captured-value { font-size: 1.5em; font-weight: bold; color: #5eead4; text-align: center; display: block; margin-top: 10px; }
+        .btn-capture:hover  { background: linear-gradient(135deg, rgba(37,99,235,0.65), rgba(99,102,241,0.65)); transform: translateY(-1px); }
+        .btn-capture:disabled { opacity: 0.50; cursor: not-allowed; transform: none; }
+        .captured-value { font-size: 1.6em; font-weight: 900; color: #5eead4; text-align: center; display: block; margin-top: 8px; }
+
+        /* ── Step header ─────────────────────────────────────── */
+        .step-header {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+        }
+        .step-badge {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-size: 1em; font-weight: 800; color: #fff;
+            box-shadow: 0 6px 16px rgba(99,102,241,0.40);
+        }
+        .step-header h3 { margin: 0; color: #fff; font-size: 1.05em; font-weight: 700; }
+        .step-header p  { margin: 2px 0 0; color: rgba(255,255,255,0.42); font-size: 0.83em; }
+
+        /* ── Live feed display ───────────────────────────────── */
+        .live-feed-box {
+            display: flex; justify-content: space-between; gap: 10px;
+            background: rgba(255,255,255,0.07); padding: 12px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12); margin-bottom: 12px;
+        }
+        .live-feed-cell { text-align: center; flex: 1; }
+        .live-feed-label {
+            display: block; font-size: 0.70em; color: rgba(255,255,255,0.45);
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+        }
+        .live-feed-value { font-size: 1.7em; font-weight: 900; color: #93c5fd; }
+        .captured-feed-value { font-size: 1.7em; font-weight: 900; color: #5eead4; }
+        .live-feed-divider { width: 1px; background: rgba(255,255,255,0.12); margin: 4px 0; }
+
+        @media (max-width: 900px) {
+            .setup-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -104,15 +157,20 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
         <header class="topbar">
             <div class="welcome">🚙 Setup Parking Test</div>
             <div class="profile">
-                <span title="Notifications">🔔</span>
-                <span title="Profile">👤</span>
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Notifications">🔔</div>
+                <div style="width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9em;" title="Profile">👤</div>
             </div>
         </header>
 
         <section class="content-section">
-            <div class="card" id="step1Card">
-                <h3>Step 1 — Verify Hardware Connection</h3>
-                
+            <div class="card animate-in" id="step1Card">
+                <div class="step-header">
+                    <div class="step-badge">1</div>
+                    <div>
+                        <h3>Verify Hardware Connection</h3>
+                        <p>Checking that all sensor modules are online and responding.</p>
+                    </div>
+                </div>
                 <div id="statusBanner" class="status-banner checking">
                     <span id="statusIcon">🔄</span>
                     <span id="statusText">Checking sensors via sensor.php...</span>
@@ -125,8 +183,14 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                 <button class="action-btn" id="retryBtn" onclick="checkSensors()" style="display:none; background:#b91c1c;">🔁 Retry Connection</button>
             </div>
 
-            <div class="card" id="step2Card" style="display:none;">
-                <h3>Step 2 — Configure Test Parameters</h3>
+            <div class="card animate-in" id="step2Card" style="display:none;">
+                <div class="step-header" style="margin-bottom:20px;">
+                    <div class="step-badge">2</div>
+                    <div>
+                        <h3>Configure Test Parameters</h3>
+                        <p>Assign sides, capture target distances, and lock each sensor.</p>
+                    </div>
+                </div>
                 
                 <?php if($session_id == 0 && count($students) == 0): ?>
                     <div class="msg-error">
@@ -185,10 +249,10 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                                 $title = "Sensor Module " . $hw_id;
                             ?>
                             <div class="setup-card" id="card_<?= $hw_id ?>">
-                                <h4><?= $title ?></h4>
+                                <h4><span style="font-size:1.1em;">📡</span> <?= $title ?></h4>
                                 <div class="form-group">
                                     <label>Assign to Side</label>
-                                    <select name="side_<?= $hw_id ?>" id="side_<?= $hw_id ?>" required class="form-control side-selector" onchange="updateSideSelectors()">
+                                    <select name="side_<?= $hw_id ?>" id="side_<?= $hw_id ?>" required class="form-control side-selector" onchange="updateSideSelectors()" aria-label="Sensor <?= $hw_id ?> side">
                                         <option value="">-- Select Side --</option>
                                         <option value="None">No side</option>
                                         <option value="Left">Left Side</option>
@@ -196,31 +260,34 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
                                         <option value="Right">Right Side</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="background:rgba(255,255,255,0.08); padding: 15px; border-radius: 14px; border:1px solid rgba(255,255,255,0.18);">
+                                <div class="form-group">
                                     <label>Perfect Parking Distance</label>
-                                    <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:rgba(255,255,255,0.10); padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.18);">
-                                        <div style="text-align:center; flex-grow:1; border-right:1px solid rgba(255,255,255,0.18);">
-                                            <span style="display:block; font-size:0.78em; color:rgba(255,255,255,0.65); font-weight:bold; text-transform:uppercase;">Live Feed</span>
-                                            <span id="live_feed_<?= $hw_id ?>" style="font-size:1.8em; font-weight:bold; color:#93c5fd;">-- cm</span>
+                                    <div class="live-feed-box">
+                                        <div class="live-feed-cell">
+                                            <span class="live-feed-label">Live Feed</span>
+                                            <span id="live_feed_<?= $hw_id ?>" class="live-feed-value">-- cm</span>
                                         </div>
-                                        <div style="text-align:center; flex-grow:1;">
-                                            <span style="display:block; font-size:0.78em; color:rgba(255,255,255,0.65); font-weight:bold; text-transform:uppercase;">Captured target</span>
-                                            <span class="captured-value" id="display_calib_<?= $hw_id ?>" style="margin-top:0; font-size:1.8em;">--</span>
+                                        <div class="live-feed-divider"></div>
+                                        <div class="live-feed-cell">
+                                            <span class="live-feed-label">Captured</span>
+                                            <span class="captured-feed-value" id="display_calib_<?= $hw_id ?>">--</span>
                                         </div>
                                     </div>
-                                    <div style="display:flex; gap:10px;">
-                                        <button type="button" class="btn-capture" id="btn_capture_<?= $hw_id ?>" onclick="captureBaseline('<?= $hw_id ?>')" style="flex:1;">📷 Capture</button>
-                                    </div>
+                                    <button type="button" class="btn-capture" id="btn_capture_<?= $hw_id ?>"
+                                            onclick="captureBaseline('<?= $hw_id ?>')"
+                                            aria-label="Capture sensor <?= $hw_id ?> baseline">
+                                        📷 Capture Baseline
+                                    </button>
                                     <input type="hidden" id="target_distance_<?= $hw_id ?>" name="target_distance_<?= $hw_id ?>" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Allowed Error (cm)</label>
-                                    <input type="number" step="0.1" name="allowed_error_<?= $hw_id ?>" id="allowed_error_<?= $hw_id ?>" value="5" required class="form-control">
+                                    <input type="number" step="0.1" name="allowed_error_<?= $hw_id ?>" id="allowed_error_<?= $hw_id ?>" value="5" required class="form-control" aria-label="Allowed error for sensor <?= $hw_id ?>">
                                 </div>
                                 
-                                <div style="display:flex; gap:10px; margin-top:15px;">
-                                    <button type="button" id="btn_lock_<?= $hw_id ?>" class="action-btn" style="flex:1;" onclick="lockSensor('<?= $hw_id ?>')">🔒 Lock Calibration</button>
-                                    <button type="button" id="btn_unlock_<?= $hw_id ?>" class="action-btn" style="flex:1; display:none; background:rgba(185,28,28,0.45);" onclick="unlockSensor('<?= $hw_id ?>')">🔓 Unlock</button>
+                                <div style="display:flex; gap:10px; margin-top:14px;">
+                                    <button type="button" id="btn_lock_<?= $hw_id ?>" class="action-btn" style="flex:1;" onclick="lockSensor('<?= $hw_id ?>')" aria-label="Lock sensor <?= $hw_id ?> calibration">🔒 Lock</button>
+                                    <button type="button" id="btn_unlock_<?= $hw_id ?>" class="action-btn" style="flex:1; display:none; background:rgba(185,28,28,0.45);" onclick="unlockSensor('<?= $hw_id ?>')" aria-label="Unlock sensor <?= $hw_id ?>">🔓 Unlock</button>
                                 </div>
                             </div>
                             <?php endforeach; ?>
