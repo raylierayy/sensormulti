@@ -601,6 +601,32 @@ textarea:focus {
   color: var(--text-primary);
 }
 
+/* ── Light Mode Form Control Overrides ────────────────────────────── */
+[data-theme="light"] .form-control,
+[data-theme="light"] select.form-control,
+[data-theme="light"] .form-group select,
+[data-theme="light"] select {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e293b;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+[data-theme="light"] .form-control option,
+[data-theme="light"] select.form-control option,
+[data-theme="light"] .form-group select option,
+[data-theme="light"] select option {
+  background: white;
+  color: #1e293b;
+}
+
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus,
+[data-theme="light"] .form-control:focus,
+[data-theme="light"] select:focus {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
+}
+
 /* Input with icon prefix */
 .input-wrap {
   position: relative;
