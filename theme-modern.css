@@ -858,6 +858,19 @@
    14. LIGHT THEME OVERRIDES
    ========================================================================== */
 
+/* Override design tokens for light mode */
+[data-theme="light"] {
+  --text-primary:   #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted:     #9ca3af;
+  --border-subtle:  rgba(0, 0, 0, 0.08);
+  --border-light:   rgba(0, 0, 0, 0.12);
+  --glass-1:        rgba(255, 255, 255, 0.60);
+  --glass-2:        rgba(255, 255, 255, 0.75);
+  --glass-3:        rgba(255, 255, 255, 0.88);
+  --bg-card:        rgba(255, 255, 255, 0.80);
+}
+
 [data-theme="light"] .panel-title {
   color: #1f2937;
 }

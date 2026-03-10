@@ -159,6 +159,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
             margin: 24px 0;
         }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .form-center-card h3 {
+            color: #111827;
+        }
+        [data-theme="light"] .form-center-card .card-subtitle {
+            color: #6b7280;
+        }
+        [data-theme="light"] .field-label {
+            color: #4b5563;
+        }
+        [data-theme="light"] .form-footer-link {
+            color: #6b7280;
+        }
+        [data-theme="light"] .form-footer-link:hover {
+            color: #374151;
+        }
+        [data-theme="light"] .form-divider {
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.20), transparent);
+        }
     </style>
 </head>
 <body>

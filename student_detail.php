@@ -110,6 +110,11 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
             transform: translateY(-2px);
             box-shadow: 0 8px 22px rgba(16,185,129,0.60);
         }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .sessions-table td:first-child {
+            color: #6366f1;
+        }
     </style>
 </head>
 <body>

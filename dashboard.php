@@ -119,6 +119,32 @@ require 'session_check.php';
 
         /* ── Counter animation ───────────────────────────────── */
         .counter { display: inline-block; }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .hero-stat {
+            background: rgba(99,102,241,0.06);
+            border-color: rgba(99,102,241,0.15);
+        }
+
+        [data-theme="light"] .hero-stat-label {
+            color: #6b7280;
+        }
+
+        [data-theme="light"] .action-card h3 {
+            color: #111827;
+        }
+
+        [data-theme="light"] .action-card p {
+            color: #6b7280;
+        }
+
+        [data-theme="light"] .hero-card h1 {
+            color: #111827 !important;
+        }
+
+        [data-theme="light"] .hero-card p {
+            color: #4b5563 !important;
+        }
     </style>
 </head>
 <body>

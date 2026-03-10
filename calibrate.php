@@ -147,6 +147,43 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
         @media (max-width: 900px) {
             .setup-grid { grid-template-columns: 1fr; }
         }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .status-banner.checking {
+            color: #1e40af;
+        }
+        [data-theme="light"] .status-banner.error {
+            color: #7f1d1d;
+        }
+        [data-theme="light"] .status-banner.ok {
+            color: #065f46;
+        }
+        [data-theme="light"] .sensor-chip {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.12);
+            color: #374151;
+        }
+        [data-theme="light"] .setup-card {
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(99,102,241,0.18);
+        }
+        [data-theme="light"] .setup-card h4 {
+            color: #111827;
+            border-bottom-color: rgba(99,102,241,0.12);
+        }
+        [data-theme="light"] .step-header h3 {
+            color: #111827;
+        }
+        [data-theme="light"] .step-header p {
+            color: #6b7280;
+        }
+        [data-theme="light"] .live-feed-box {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(99,102,241,0.15);
+        }
+        [data-theme="light"] .live-feed-label {
+            color: #6b7280;
+        }
     </style>
 </head>
 <body>

@@ -275,6 +275,31 @@ if ($student_id > 0) {
         @media (max-width: 900px) {
             .monitor-row { grid-template-columns: 1fr; }
         }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .sensor-box {
+            background: rgba(255, 255, 255, 0.88);
+            border-color: rgba(99, 102, 241, 0.30);
+            color: #111827;
+        }
+        [data-theme="light"] .hw-label {
+            background: rgba(99, 102, 241, 0.10);
+            color: #4b5563;
+        }
+        [data-theme="light"] .calib-data {
+            background: rgba(0, 0, 0, 0.04);
+            color: #4b5563;
+        }
+        [data-theme="light"] .processed-val {
+            color: #374151;
+            border-top-color: rgba(0, 0, 0, 0.10);
+        }
+        [data-theme="light"] .accuracy-bar {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        [data-theme="light"] #connection-alert {
+            color: #7f1d1d;
+        }
     </style>
 </head>
 <body>

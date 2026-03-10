@@ -44,6 +44,36 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
     <style>
         /* Classes defined in theme-modern.css: split-layout, info-panel, data-panel,
            panel-title, readonly-box, complex-table, side-Main */
+
+        /* ── Table cell specific styles ───────────────────────── */
+        .test-id-cell {
+            border-right: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .averages-label-cell {
+            color: rgba(255, 255, 255, 0.80);
+        }
+
+        .table-empty-cell {
+            color: rgba(255, 255, 255, 0.60);
+        }
+
+        /* ── Light Mode Overrides ─────────────────────────────── */
+        [data-theme="light"] .test-id-cell {
+            border-right-color: rgba(0, 0, 0, 0.12);
+        }
+
+        [data-theme="light"] .averages-label-cell {
+            color: #374151;
+        }
+
+        [data-theme="light"] .table-empty-cell {
+            color: #6b7280;
+        }
+
+        [data-theme="light"] .averages-row td {
+            color: #374151;
+        }
     </style>
 </head>
 <body>
@@ -136,7 +166,7 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                                 <?php foreach($tests as $t): ?>
                                     <!-- SENSOR 1 -->
                                     <tr class="sensor-group-start">
-                                        <td rowspan="3" style="font-weight:bold; font-size:1.2em; border-right: 1px solid rgba(255,255,255,0.18); vertical-align: middle;">#<?= $t['ID'] ?></td>
+                                        <td rowspan="3" class="test-id-cell" style="font-weight:bold; font-size:1.2em; vertical-align: middle;">#<?= $t['ID'] ?></td>
                                         <td class="side-Main"><?= $t['assigned_side_1'] ?></td>
                                         <td><?= $t['calibration_distance_1'] ?></td>
                                         <td><?= $t['allowed_distance_error_1'] ?></td>
@@ -168,14 +198,14 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                                 <?php endforeach; ?>
                                 
                                 <tr class="averages-row">
-                                    <td colspan="5" style="text-align:right; color:rgba(255,255,255,0.80);">SESSION MULTI-SENSOR AVERAGES:</td>
+                                    <td colspan="5" class="averages-label-cell" style="text-align:right;">SESSION MULTI-SENSOR AVERAGES:</td>
                                     <td><?= $session['avg_distance_error_raw'] !== null ? round($session['avg_distance_error_raw'], 1) . ' cm' : 'N/A' ?></td>
                                     <td><?= $session['avg_distance_error_percentage'] !== null ? round($session['avg_distance_error_percentage'], 1) . '%' : 'N/A' ?></td>
                                     <td><?= $session['avg_computed_accuracy'] !== null ? round($session['avg_computed_accuracy'], 1) . '%' : 'N/A' ?></td>
                                 </tr>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" style="padding: 30px; color:rgba(255,255,255,0.60);">No sensor data logged in this session yet.</td>
+                                    <td colspan="8" class="table-empty-cell" style="padding: 30px;">No sensor data logged in this session yet.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
