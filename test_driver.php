@@ -278,7 +278,7 @@ if ($student_id > 0) {
 
         /* ── Light Mode Overrides ─────────────────────────────── */
         [data-theme="light"] .sensor-box {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.75);
             border-color: rgba(99, 102, 241, 0.30);
             color: #111827;
         }
@@ -299,6 +299,10 @@ if ($student_id > 0) {
         }
         [data-theme="light"] #connection-alert {
             color: #7f1d1d;
+        }
+        /* Sensor title (amber colored, invisible on light bg) */
+        [data-theme="light"] .sensor-title {
+            color: #d97706;
         }
     </style>
 </head>

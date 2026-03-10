@@ -162,13 +162,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         /* ── Light Mode Overrides ─────────────────────────────── */
         [data-theme="light"] .form-center-card h3 {
-            color: #111827;
+            color: #111827 !important;
         }
         [data-theme="light"] .form-center-card .card-subtitle {
-            color: #6b7280;
+            color: #6b7280 !important;
+        }
+        /* Card header inline text (h3/p with inline color:#fff) */
+        [data-theme="light"] .form-center-card > div > div > h3 {
+            color: #111827 !important;
+        }
+        [data-theme="light"] .form-center-card > div > div > p {
+            color: #6b7280 !important;
         }
         [data-theme="light"] .field-label {
-            color: #4b5563;
+            color: #4b5563 !important;
         }
         [data-theme="light"] .form-footer-link {
             color: #6b7280;

@@ -865,10 +865,10 @@
   --text-muted:     #9ca3af;
   --border-subtle:  rgba(0, 0, 0, 0.08);
   --border-light:   rgba(0, 0, 0, 0.12);
-  --glass-1:        rgba(255, 255, 255, 0.60);
-  --glass-2:        rgba(255, 255, 255, 0.75);
-  --glass-3:        rgba(255, 255, 255, 0.88);
-  --bg-card:        rgba(255, 255, 255, 0.80);
+  --glass-1:        rgba(255, 255, 255, 0.55);
+  --glass-2:        rgba(255, 255, 255, 0.68);
+  --glass-3:        rgba(255, 255, 255, 0.80);
+  --bg-card:        rgba(255, 255, 255, 0.70);
 }
 
 [data-theme="light"] .panel-title {

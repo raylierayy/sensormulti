@@ -164,7 +164,7 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
             color: #374151;
         }
         [data-theme="light"] .setup-card {
-            background: rgba(255,255,255,0.85);
+            background: rgba(255,255,255,0.72);
             border-color: rgba(99,102,241,0.18);
         }
         [data-theme="light"] .setup-card h4 {
@@ -183,6 +183,15 @@ if ($preset_res !== false && sqlsrv_has_rows($preset_res)) {
         }
         [data-theme="light"] .live-feed-label {
             color: #6b7280;
+        }
+        [data-theme="light"] .live-feed-value {
+            color: #3b82f6;
+        }
+        [data-theme="light"] .captured-feed-value {
+            color: #0d9488;
+        }
+        [data-theme="light"] .captured-value {
+            color: #0d9488;
         }
     </style>
 </head>

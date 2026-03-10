@@ -203,6 +203,13 @@ require 'db_connection.php';
         [data-theme="light"] .search-input::placeholder {
             color: #9ca3af !important;
         }
+        /* Card header inline text overrides */
+        [data-theme="light"] .glass-card-modern > div > h3 {
+            color: #111827 !important;
+        }
+        [data-theme="light"] .glass-card-modern > div > p {
+            color: #6b7280 !important;
+        }
     </style>
 </head>
 <body>
