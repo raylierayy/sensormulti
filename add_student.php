@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Add Student - Sensor System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <style>
         /* ── Centered form card ─────────────────────────────── */
         .form-center-card {
@@ -171,6 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="students.php">Students</a> › Add New Student
             </div>
             <div class="profile">
+                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">🌙</button>
                 <div style="width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1em;cursor:pointer;" title="Notifications">🔔</div>
                 <div style="width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9em;" title="Profile">👤</div>
             </div>
@@ -239,6 +241,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
     </main>
 </div>
+
+<script>
+/* Theme toggle */
+(function () {
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        updateThemeIcon(btn, saved);
+        btn.addEventListener('click', function () {
+            const cur = html.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(btn, next);
+        });
+    }
+    function updateThemeIcon(btn, theme) {
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+})();
+</script>
 
 </body>
 </html>

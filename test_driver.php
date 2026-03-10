@@ -157,6 +157,7 @@ if ($student_id > 0) {
     <title>Active Test - Sensor System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <style>
         /* ── Monitor layout ──────────────────────────────────── */
         .test-panel { display: flex; flex-direction: column; gap: 20px; }
@@ -290,6 +291,7 @@ if ($student_id > 0) {
                 Active Parking Test
             </div>
             <div class="profile">
+                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">🌙</button>
                 <span style="color:rgba(255,255,255,0.55); font-size:0.88em;">Student:</span>
                 <strong style="color:#fff;"><?= $student_name ?></strong>
             </div>
@@ -499,6 +501,30 @@ if ($student_id > 0) {
 
     // Start polling immediately
     intervalId = setInterval(fetchSensor, 400);
+</script>
+
+<script>
+/* Theme toggle */
+(function () {
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        updateThemeIcon(btn, saved);
+        btn.addEventListener('click', function () {
+            const cur = html.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(btn, next);
+        });
+    }
+    function updateThemeIcon(btn, theme) {
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+})();
 </script>
 
 </body>

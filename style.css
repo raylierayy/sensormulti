@@ -3,6 +3,70 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
+/* ── 0. Theme Variables ───────────────────────────────────────────── */
+:root {
+  /* Dark mode defaults (theme variables) */
+  --bg-primary:            #0a0e1a;
+  --bg-secondary:          #151b2e;
+  --bg-gradient-start:     #1e293b;
+  --bg-gradient-end:       #334155;
+  --text-primary:          #f1f5f9;
+  --text-secondary:        #cbd5e1;
+  --border-color:          rgba(255, 255, 255, 0.10);
+  --card-bg:               rgba(255, 255, 255, 0.08);
+  --card-border:           rgba(255, 255, 255, 0.18);
+  --card-shadow:           0 8px 32px rgba(0, 0, 0, 0.30);
+  --topbar-bg:             rgba(255, 255, 255, 0.05);
+  --topbar-border:         rgba(255, 255, 255, 0.10);
+  --panel-bg:              rgba(255, 255, 255, 0.05);
+  --panel-border:          rgba(255, 255, 255, 0.15);
+  --input-bg:              rgba(255, 255, 255, 0.06);
+  --input-border:          rgba(255, 255, 255, 0.14);
+  --grid-overlay-color:    rgba(255, 255, 255, 0.025);
+  --table-row-hover:       rgba(255, 255, 255, 0.05);
+  --table-header-bg:       rgba(255, 255, 255, 0.06);
+  --table-border:          rgba(255, 255, 255, 0.08);
+  --th-color:              rgba(255, 255, 255, 0.55);
+  --td-color:              rgba(255, 255, 255, 0.88);
+  --link-color:            rgba(255, 255, 255, 0.75);
+  --sidebar-gradient-start: rgba(10, 14, 26, 0.97);
+  --sidebar-gradient-end:   rgba(21, 27, 46, 0.97);
+  --glass-bg:              rgba(255, 255, 255, 0.08);
+  --glass-border:          rgba(255, 255, 255, 0.15);
+  --shadow:                rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] {
+  --bg-primary:            #f0f4ff;
+  --bg-secondary:          #e8eeff;
+  --bg-gradient-start:     #e0e7ff;
+  --bg-gradient-end:       #fce7f3;
+  --text-primary:          #1f2937;
+  --text-secondary:        #4b5563;
+  --border-color:          rgba(99, 102, 241, 0.15);
+  --card-bg:               rgba(255, 255, 255, 0.85);
+  --card-border:           rgba(99, 102, 241, 0.18);
+  --card-shadow:           0 8px 32px rgba(0, 0, 0, 0.08);
+  --topbar-bg:             rgba(255, 255, 255, 0.80);
+  --topbar-border:         rgba(99, 102, 241, 0.15);
+  --panel-bg:              rgba(255, 255, 255, 0.80);
+  --panel-border:          rgba(99, 102, 241, 0.18);
+  --input-bg:              rgba(255, 255, 255, 0.90);
+  --input-border:          rgba(99, 102, 241, 0.25);
+  --grid-overlay-color:    rgba(0, 0, 0, 0.025);
+  --table-row-hover:       rgba(99, 102, 241, 0.06);
+  --table-header-bg:       rgba(99, 102, 241, 0.06);
+  --table-border:          rgba(99, 102, 241, 0.10);
+  --th-color:              #6b7280;
+  --td-color:              #1f2937;
+  --link-color:            #4b5563;
+  --sidebar-gradient-start: rgba(10, 14, 26, 0.97);
+  --sidebar-gradient-end:   rgba(21, 27, 46, 0.97);
+  --glass-bg:              rgba(255, 255, 255, 0.70);
+  --glass-border:          rgba(99, 102, 241, 0.15);
+  --shadow:                rgba(0, 0, 0, 0.10);
+}
+
 /* ── 1. CSS Variables ─────────────────────────────────────────────── */
 :root {
   /* Colors */
@@ -87,13 +151,22 @@ body {
     radial-gradient(ellipse at 15% 50%,  rgba(99, 102, 241, 0.20) 0%, transparent 55%),
     radial-gradient(ellipse at 85% 15%,  rgba(139, 92, 246, 0.15) 0%, transparent 55%),
     radial-gradient(ellipse at 50% 85%,  rgba(6, 182, 212,  0.15) 0%, transparent 55%),
-    var(--color-bg-primary);
-  color: var(--color-text-primary);
+    var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse at 15% 50%,  rgba(99, 102, 241, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%,  rgba(139, 92, 246, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 85%,  rgba(6, 182, 212,  0.08) 0%, transparent 55%),
+    var(--bg-primary);
 }
 
 /* Subtle grid overlay */
@@ -102,8 +175,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(var(--grid-overlay-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-overlay-color) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
@@ -230,15 +303,16 @@ body::before {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--topbar-bg);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--topbar-border);
   padding: 16px 24px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   position: relative;
   z-index: 1;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .topbar::before {
@@ -255,16 +329,16 @@ body::before {
 .welcome {
   font-size: 1.05em;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--text-primary);
 }
 
 .welcome a {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--link-color);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.welcome a:hover { color: #fff; }
+.welcome a:hover { color: var(--text-primary); }
 
 .profile {
   display: flex;
@@ -308,16 +382,17 @@ body::before {
 /* ── 8. Glass Card ────────────────────────────────────────────────── */
 .card,
 .glass-card {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--card-bg);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border: 1.5px solid var(--card-border);
   border-radius: var(--card-radius);
   padding: 26px;
-  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: var(--card-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base),
+              background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card::before,
@@ -342,7 +417,7 @@ body::before {
 .card h3,
 .glass-card h3 {
   margin: 0 0 18px;
-  color: var(--color-text-primary);
+  color: var(--text-primary);
   font-weight: 700;
   font-size: 1.05em;
   letter-spacing: -0.01em;
@@ -427,7 +502,7 @@ body::before {
   display: block;
   margin-bottom: 7px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.80);
+  color: var(--text-secondary);
   font-size: var(--font-size-sm);
   letter-spacing: 0.02em;
 }
@@ -443,10 +518,10 @@ select,
 textarea {
   width: 100%;
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
   border-radius: var(--radius-md);
-  color: var(--color-text-primary);
+  color: var(--text-primary);
   font-size: 0.95em;
   font-weight: 500;
   transition: border-color var(--transition-fast),
@@ -472,7 +547,8 @@ textarea {
 .form-group input::placeholder,
 input::placeholder,
 textarea::placeholder {
-  color: rgba(255, 255, 255, 0.30);
+  color: var(--text-secondary);
+  opacity: 0.6;
 }
 
 .form-group input:focus,
@@ -485,7 +561,7 @@ textarea:focus {
   border-color: rgba(99, 102, 241, 0.70);
   background: rgba(99, 102, 241, 0.08);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
-  color: var(--color-text-primary);
+  color: var(--text-primary);
 }
 
 /* Input with icon prefix */
@@ -518,14 +594,14 @@ table {
 th, td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--table-border);
+  color: var(--td-color);
   vertical-align: middle;
 }
 
 th {
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.55);
+  background: var(--table-header-bg);
+  color: var(--th-color);
   font-weight: 700;
   font-size: 0.78em;
   text-transform: uppercase;
@@ -538,7 +614,7 @@ tbody tr {
 }
 
 tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--table-row-hover);
 }
 
 /* ── 12. Status Pills ─────────────────────────────────────────────── */
