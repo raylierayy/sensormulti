@@ -58,6 +58,74 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
             color: rgba(255, 255, 255, 0.60);
         }
 
+        /* ── Student name in info panel ───────────────────────── */
+        .session-student-name {
+            font-size: 1.2em;
+            color: #93c5fd;
+            font-weight: 700;
+        }
+
+        [data-theme="light"] .session-student-name {
+            color: #1e40af;
+        }
+
+        /* ── Info panel HR divider ────────────────────────────── */
+        .info-hr {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 10px 0;
+        }
+
+        [data-theme="light"] .info-hr {
+            border-top-color: rgba(0, 0, 0, 0.12);
+        }
+
+        /* ── Green "Add Test" button variant ─────────────────── */
+        .btn-add-test {
+            background: rgba(34, 197, 94, 0.30) !important;
+            border: 1px solid rgba(34, 197, 94, 0.60) !important;
+            color: #d1fae5 !important;
+        }
+
+        .btn-add-test:hover {
+            background: rgba(34, 197, 94, 0.45) !important;
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35) !important;
+        }
+
+        [data-theme="light"] .btn-add-test {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: rgba(16, 185, 129, 0.50) !important;
+            color: #065f46 !important;
+        }
+
+        [data-theme="light"] .btn-add-test:hover {
+            background: rgba(16, 185, 129, 0.25) !important;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25) !important;
+        }
+
+        /* ── Red "Finish Session" button variant ─────────────── */
+        .btn-finish-session {
+            background: rgba(185, 28, 28, 0.35) !important;
+            border: 1px solid rgba(239, 68, 68, 0.60) !important;
+            color: #fecaca !important;
+        }
+
+        .btn-finish-session:hover {
+            background: rgba(185, 28, 28, 0.50) !important;
+            box-shadow: 0 4px 16px rgba(185, 28, 28, 0.35) !important;
+        }
+
+        [data-theme="light"] .btn-finish-session {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.50) !important;
+            color: #7f1d1d !important;
+        }
+
+        [data-theme="light"] .btn-finish-session:hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.20) !important;
+        }
+
         /* ── Light Mode Overrides ─────────────────────────────── */
         [data-theme="light"] .test-id-cell {
             border-right-color: rgba(0, 0, 0, 0.12);
@@ -101,8 +169,8 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                     <h3 class="panel-title">Session Overview</h3>
                     <div class="readonly-box">
                         <strong>Student</strong><br>
-                        <span style="font-size:1.2em; color:#93c5fd; font-weight:700;"><?= htmlspecialchars($session['firstname'] . ' ' . $session['lastname']) ?></span>
-                        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.15); margin: 10px 0;">
+                        <span class="session-student-name"><?= htmlspecialchars($session['firstname'] . ' ' . $session['lastname']) ?></span>
+                        <hr class="info-hr">
                         
                         <strong>Status</strong><br>
                         <?php if ($session['session_status'] === 'Ongoing'): ?>
@@ -111,7 +179,7 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                             <span class="status-pill status-completed">Completed</span>
                         <?php endif; ?>
                         
-                        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.15); margin: 10px 0;">
+                        <hr class="info-hr">
                         
                         <strong>Started At</strong><br>
                         <?php 
@@ -136,10 +204,10 @@ if ($tests_result !== false && sqlsrv_has_rows($tests_result)) {
                     <a href="generate_pdf.php?session_id=<?= $session_id ?>" class="action-btn" style="display:block; text-align:center; margin-bottom:10px;">📄 Download PDF Report</a>
                     
                     <?php if ($session['session_status'] === 'Ongoing'): ?>
-                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="action-btn" style="display:block; text-align:center; background:rgba(34,197,94,0.30); border-color:rgba(34,197,94,0.60); color:#d1fae5; margin-bottom:10px;">+ Add Another Test</a>
+                        <a href="calibrate.php?session_id=<?= $session_id ?>" class="action-btn btn-add-test" style="display:block; text-align:center; margin-bottom:10px;">+ Add Another Test</a>
                         <form method="POST" action="">
                             <input type="hidden" name="end_session_inner" value="1">
-                            <button type="submit" class="action-btn" style="display:block; width:100%; text-align:center; background:rgba(185,28,28,0.35); border-color:rgba(239,68,68,0.60); color:#fecaca;">Finish Session</button>
+                            <button type="submit" class="action-btn btn-finish-session" style="display:block; width:100%; text-align:center;">Finish Session</button>
                         </form>
                     <?php endif; ?>
                 </div>
