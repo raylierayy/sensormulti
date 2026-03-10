@@ -194,14 +194,19 @@ require 'db_connection.php';
                         <h3 style="margin:0; font-size:1.05em; font-weight:700; color:#fff;">All Students</h3>
                         <p style="margin:3px 0 0; font-size:0.82em; color:rgba(255,255,255,0.40);">Manage registered students and grades</p>
                     </div>
-                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; position:relative;">
                         <div class="search-wrap">
                             <span class="search-icon">🔍</span>
                             <input type="text" id="studentSearch" class="search-input"
                                    placeholder="Search students…"
                                    oninput="filterStudents(this.value)"
-                                   aria-label="Search students">
+                                   aria-label="Search students"
+                                   aria-controls="studentsBody"
+                                   autocomplete="off">
                         </div>
+                        <!-- Live region announces visible count to screen readers -->
+                        <span id="searchStatus" aria-live="polite" aria-atomic="true"
+                              style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"></span>
                         <a href="add_student.php" class="btn-action-pill" aria-label="Add new student">
                             ＋ Add New
                         </a>
@@ -273,10 +278,20 @@ require 'db_connection.php';
 function filterStudents(query) {
     const q = query.toLowerCase().trim();
     const rows = document.querySelectorAll('#studentsBody tr');
+    let visible = 0;
     rows.forEach(row => {
         const text = row.textContent.toLowerCase();
-        row.style.display = (q === '' || text.includes(q)) ? '' : 'none';
+        const show = (q === '' || text.includes(q));
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
     });
+    /* Announce results to screen readers */
+    const status = document.getElementById('searchStatus');
+    if (status) {
+        status.textContent = q
+            ? `${visible} student${visible !== 1 ? 's' : ''} match "${query}"`
+            : '';
+    }
 }
 </script>
 

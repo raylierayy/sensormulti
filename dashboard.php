@@ -259,17 +259,27 @@ require 'session_check.php';
 </div>
 
 <script>
-/* Animated counters */
-document.querySelectorAll('.counter').forEach(el => {
-    const target = parseInt(el.dataset.target, 10);
-    let current = 0;
-    const step = Math.max(1, Math.floor(target / 20));
-    const timer = setInterval(() => {
-        current = Math.min(current + step, target);
-        el.textContent = current;
-        if (current >= target) clearInterval(timer);
-    }, 60);
-});
+/* Animated counters — clean up timers when the page is hidden/unloaded */
+(function () {
+    const timers = [];
+
+    document.querySelectorAll('.counter').forEach(el => {
+        const target = parseInt(el.dataset.target, 10);
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 20));
+        const id = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = current;
+            if (current >= target) clearInterval(id);
+        }, 60);
+        timers.push(id);
+    });
+
+    /* Clean up on page hide/unload to prevent memory leaks */
+    function clearAll() { timers.forEach(id => clearInterval(id)); }
+    window.addEventListener('pagehide', clearAll);
+    window.addEventListener('beforeunload', clearAll);
+})();
 </script>
 
 </body>
