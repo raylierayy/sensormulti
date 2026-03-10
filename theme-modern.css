@@ -921,6 +921,20 @@
   border-color: rgba(107, 114, 128, 0.25);
 }
 
+[data-theme="light"] .grade-pass {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.12));
+  border-color: rgba(16, 185, 129, 0.50);
+  color: #065f46;
+  box-shadow: 0 2px 12px rgba(16, 185, 129, 0.20);
+}
+
+[data-theme="light"] .grade-fail {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(220, 38, 38, 0.12));
+  border-color: rgba(239, 68, 68, 0.50);
+  color: #7f1d1d;
+  box-shadow: 0 2px 12px rgba(239, 68, 68, 0.15);
+}
+
 /* Theme toggle button (in topbar) */
 .theme-toggle-btn {
   width: 34px;

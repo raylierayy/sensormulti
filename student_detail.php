@@ -123,6 +123,21 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
         [data-theme="light"] .sessions-table span:not([class]) {
             color: #9ca3af !important;
         }
+        /* Grading decision section box */
+        .grading-section-box {
+            background: rgba(255, 255, 255, 0.10);
+            padding: 15px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            margin-top: 20px;
+        }
+        [data-theme="light"] .grading-section-box {
+            background: rgba(99, 102, 241, 0.06);
+            border-color: rgba(99, 102, 241, 0.20);
+        }
+        [data-theme="light"] .grading-section-box label {
+            color: #374151 !important;
+        }
     </style>
 </head>
 <body>
@@ -187,7 +202,7 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                         </div>
                         
                         <!-- Grading section -->
-                        <div class="form-group" style="background:rgba(255,255,255,0.10); padding:15px; border-radius:14px; border:1px solid rgba(255,255,255,0.20); margin-top:20px;">
+                        <div class="form-group grading-section-box">
                             <label style="color:rgba(255,255,255,0.95);"><strong>Final Grade Decision</strong></label>
                             <select name="pass_fail" style="width:100%; padding:10px; margin-bottom:10px;">
                                 <option value="" <?php if(empty($student['pass_fail'])) echo 'selected'; ?>>[Pending / Still Testing]</option>

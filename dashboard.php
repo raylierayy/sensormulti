@@ -150,6 +150,13 @@ require 'session_check.php';
         [data-theme="light"] .status-bar > div > div > div {
             color: #374151 !important;
         }
+
+        /* "Online" badge in status bar */
+        [data-theme="light"] .status-bar > span {
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: #065f46 !important;
+            border-color: rgba(16, 185, 129, 0.40) !important;
+        }
     </style>
 </head>
 <body>

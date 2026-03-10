@@ -204,11 +204,15 @@ require 'db_connection.php';
             color: #9ca3af !important;
         }
         /* Card header inline text overrides */
-        [data-theme="light"] .glass-card-modern > div > h3 {
+        [data-theme="light"] .glass-card-modern h3 {
             color: #111827 !important;
         }
-        [data-theme="light"] .glass-card-modern > div > p {
+        [data-theme="light"] .glass-card-modern p {
             color: #6b7280 !important;
+        }
+        /* Empty state text */
+        [data-theme="light"] .empty-state strong {
+            color: #374151 !important;
         }
     </style>
 </head>
