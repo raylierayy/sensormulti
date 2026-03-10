@@ -99,6 +99,12 @@ require 'db_connection.php';
             font-weight: 700;
         }
 
+        [data-theme="light"] .tests-count {
+            background: rgba(3, 105, 161, 0.10);
+            border-color: rgba(3, 105, 161, 0.25);
+            color: #0369a1;
+        }
+
         /* Action button pill */
         .btn-action-pill {
             display: inline-flex;
