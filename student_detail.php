@@ -115,6 +115,14 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
         [data-theme="light"] .sessions-table td:first-child {
             color: #6366f1;
         }
+        /* All form labels inside the edit panel */
+        [data-theme="light"] .edit-panel .form-group label {
+            color: #374151 !important;
+        }
+        /* N/A placeholder spans in session table (no class = not a status pill) */
+        [data-theme="light"] .sessions-table span:not([class]) {
+            color: #9ca3af !important;
+        }
     </style>
 </head>
 <body>

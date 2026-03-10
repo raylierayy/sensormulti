@@ -448,6 +448,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: rgba(99, 102, 241, 0.20);
         }
 
+        /* Light mode: brand panel text overrides */
+        [data-theme="light"] .brand-title {
+            color: #111827;
+        }
+
+        [data-theme="light"] .brand-desc {
+            color: #4b5563;
+        }
+
+        [data-theme="light"] .brand-feature {
+            color: #4b5563;
+        }
+
+        [data-theme="light"] .auth-brand {
+            background: linear-gradient(135deg,
+                rgba(99,102,241,0.08) 0%,
+                rgba(139,92,246,0.05) 100%);
+            border-right-color: rgba(99, 102, 241, 0.12);
+        }
+
         /* ── Responsive ──────────────────────────────────────── */
         @media (max-width: 800px) {
             .auth-brand { display: none; }

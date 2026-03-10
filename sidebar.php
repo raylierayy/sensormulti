@@ -212,7 +212,9 @@
 
 /* ── Light Mode Overrides ── */
 [data-theme="light"] .sidebar {
-    background: rgba(255, 255, 255, 0.88) !important;
+    background: rgba(255, 255, 255, 0.70) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
     border-right-color: rgba(99, 102, 241, 0.15) !important;
     box-shadow: 4px 0 32px rgba(0, 0, 0, 0.08) !important;
 }

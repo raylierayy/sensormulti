@@ -145,6 +145,11 @@ require 'session_check.php';
         [data-theme="light"] .hero-card p {
             color: #4b5563 !important;
         }
+
+        /* Status bar inline text overrides */
+        [data-theme="light"] .status-bar > div > div > div {
+            color: #374151 !important;
+        }
     </style>
 </head>
 <body>

@@ -44,12 +44,12 @@
   --text-primary:          #1f2937;
   --text-secondary:        #4b5563;
   --border-color:          rgba(99, 102, 241, 0.15);
-  --card-bg:               rgba(255, 255, 255, 0.85);
+  --card-bg:               rgba(255, 255, 255, 0.70);
   --card-border:           rgba(99, 102, 241, 0.18);
   --card-shadow:           0 8px 32px rgba(0, 0, 0, 0.08);
-  --topbar-bg:             rgba(255, 255, 255, 0.80);
+  --topbar-bg:             rgba(255, 255, 255, 0.72);
   --topbar-border:         rgba(99, 102, 241, 0.15);
-  --panel-bg:              rgba(255, 255, 255, 0.80);
+  --panel-bg:              rgba(255, 255, 255, 0.72);
   --panel-border:          rgba(99, 102, 241, 0.18);
   --input-bg:              rgba(255, 255, 255, 0.90);
   --input-border:          rgba(99, 102, 241, 0.25);
@@ -210,7 +210,7 @@ body::before {
 }
 
 [data-theme="light"] .sidebar {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.70);
   border-right-color: rgba(99, 102, 241, 0.15);
   box-shadow: 4px 0 32px rgba(0, 0, 0, 0.08);
 }
@@ -846,4 +846,41 @@ tbody tr:hover td {
     animation-iteration-count: 1      !important;
     transition-duration:       0.01ms !important;
   }
+}
+
+/* ── 19. Light Mode: Comprehensive Text Visibility Fixes ──────────── */
+/* Force dark text on headings inside glass cards (overrides inline color:#fff) */
+[data-theme="light"] .glass-card-modern h1,
+[data-theme="light"] .glass-card-modern h2,
+[data-theme="light"] .glass-card-modern h3,
+[data-theme="light"] .glass-card-modern h4,
+[data-theme="light"] .card h1,
+[data-theme="light"] .card h2,
+[data-theme="light"] .card h3,
+[data-theme="light"] .card h4 {
+  color: #111827 !important;
+}
+
+/* Force dark secondary text on paragraphs inside glass cards */
+[data-theme="light"] .glass-card-modern p,
+[data-theme="light"] .card p {
+  color: #4b5563 !important;
+}
+
+/* Form labels inside glass cards */
+[data-theme="light"] .glass-card-modern label,
+[data-theme="light"] .card label {
+  color: #374151 !important;
+}
+
+/* Inline muted/secondary divs and spans in cards that use white rgba colors */
+[data-theme="light"] .glass-card-modern .card-subtitle,
+[data-theme="light"] .card .card-subtitle {
+  color: #6b7280 !important;
+}
+
+/* Topbar profile text overrides for inline-styled spans/strongs */
+[data-theme="light"] .topbar .profile > span,
+[data-theme="light"] .topbar .profile > strong {
+  color: #374151 !important;
 }
