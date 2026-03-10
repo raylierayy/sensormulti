@@ -941,6 +941,23 @@
 }
 
 /* Split layout responsive override for light theme */
+@media (max-width: 1100px) {
+  .split-layout {
+    flex-wrap: wrap;
+  }
+  .split-layout .info-panel,
+  .split-layout .edit-panel {
+    position: relative;
+    top: auto;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .split-layout .data-panel {
+    max-height: none;
+    min-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .split-layout {
     flex-wrap: wrap;

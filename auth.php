@@ -469,7 +469,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="orb orb-3" aria-hidden="true"></div>
 
 <!-- Theme toggle button -->
-<button id="themeToggle" class="auth-theme-toggle" title="Switch to Light Mode" aria-label="Toggle theme">🌙</button>
+<button id="themeToggle" class="auth-theme-toggle" title="Switch to Light Mode" aria-label="Toggle theme">☀️</button>
 
 <div class="auth-split">
     <!-- Branding panel -->

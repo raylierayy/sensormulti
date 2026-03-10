@@ -140,7 +140,7 @@ require 'session_check.php';
                 </span>
             </div>
             <div class="profile">
-                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">🌙</button>
+                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">☀️</button>
                 <div style="width:36px;height:36px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;cursor:pointer;" title="Notifications" aria-label="Notifications">🔔</div>
                 <div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1em;cursor:pointer;box-shadow:0 4px 12px rgba(99,102,241,0.45);" title="Profile" aria-label="Profile">👤</div>
             </div>

@@ -291,7 +291,7 @@ if ($student_id > 0) {
                 Active Parking Test
             </div>
             <div class="profile">
-                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">🌙</button>
+                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">☀️</button>
                 <span style="color:rgba(255,255,255,0.55); font-size:0.88em;">Student:</span>
                 <strong style="color:#fff;"><?= $student_name ?></strong>
             </div>
