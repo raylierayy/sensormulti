@@ -59,7 +59,9 @@ $student = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC);
 $is_finished = !empty($student['pass_fail']);
 
 // Fetch Sessions for this student
-$sessions_sql = "SELECT * FROM Sessions WHERE studentID = ? ORDER BY ID DESC";
+$sessions_sql = "SELECT s.*, 
+                 (SELECT COUNT(ID) FROM Sensors WHERE sessionID = s.ID) AS tests_count
+                 FROM Sessions s WHERE studentID = ? ORDER BY s.ID DESC";
 $sessions_result = sqlsrv_query($conn, $sessions_sql, [$student_id]);
 $sessions = [];
 if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
@@ -76,6 +78,7 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
     <title>Student Grading - Sensor System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme-modern.css">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <style>
         /* Classes defined in theme-modern.css: split-layout, info-panel, edit-panel,
            data-panel, panel-title, readonly-box, grade-pass, grade-fail,
@@ -120,6 +123,7 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                 <a href="students.php">Students</a> › Grading Panel
             </div>
             <div class="profile">
+                <button id="themeToggle" class="theme-toggle-btn" title="Switch to Light Mode" aria-label="Toggle theme">☀️</button>
                 <div style="width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;" title="Notifications">🔔</div>
                 <div style="width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:0.9em;" title="Profile">👤</div>
             </div>
@@ -207,6 +211,7 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                                 <th>Avg Error<br>(cm)</th>
                                 <th>Avg Error<br>%</th>
                                 <th>Avg Accuracy<br>%</th>
+                                <th>Tests Logged</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -247,6 +252,9 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                                                 <span style="color:rgba(255,255,255,0.45);">N/A</span>
                                             <?php endif; ?>
                                         </td>
+                                        <td style="font-weight:bold;">
+                                            <?= $ses['tests_count'] ?> attempts
+                                        </td>
                                         <td>
                                             <a href="session_detail.php?id=<?= $ses['ID'] ?>" class="action-btn" style="padding:6px 14px; font-size:0.88em;">View Tests</a>
                                         </td>
@@ -254,7 +262,7 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="7">No testing sessions logged yet. Click "+ Start New Session" to begin.</td>
+                                    <td colspan="8">No testing sessions logged yet. Click "+ Start New Session" to begin.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -265,6 +273,30 @@ if ($sessions_result !== false && sqlsrv_has_rows($sessions_result)) {
         </section>
     </main>
 </div>
+
+<script>
+/* Theme toggle */
+(function () {
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        updateThemeIcon(btn, saved);
+        btn.addEventListener('click', function () {
+            const cur = html.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(btn, next);
+        });
+    }
+    function updateThemeIcon(btn, theme) {
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+})();
+</script>
 
 </body>
 </html>

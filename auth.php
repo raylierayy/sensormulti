@@ -42,18 +42,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Parking Aid Sensor System</title>
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
 
+        :root {
+            --auth-bg: #0a0e1a;
+            --auth-card-bg: rgba(255, 255, 255, 0.06);
+            --auth-card-border: rgba(255, 255, 255, 0.14);
+            --auth-text: #f1f5f9;
+            --auth-text-muted: rgba(255, 255, 255, 0.50);
+            --auth-input-bg: rgba(255, 255, 255, 0.06);
+            --auth-input-border: rgba(255, 255, 255, 0.14);
+        }
+
+        [data-theme="light"] {
+            --auth-bg: #f0f4ff;
+            --auth-card-bg: rgba(255, 255, 255, 0.90);
+            --auth-card-border: rgba(99, 102, 241, 0.20);
+            --auth-text: #1f2937;
+            --auth-text-muted: #6b7280;
+            --auth-input-bg: rgba(255, 255, 255, 0.95);
+            --auth-input-border: rgba(99, 102, 241, 0.25);
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             min-height: 100vh;
             display: flex;
-            background: #0a0e1a;
+            background: var(--auth-bg);
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
 
         /* ── Background mesh ──────────────────────────────────── */
@@ -238,16 +260,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         /* Form card */
         .login-card {
-            background: rgba(255,255,255,0.06);
+            background: var(--auth-card-bg);
             backdrop-filter: blur(32px) saturate(180%);
             -webkit-backdrop-filter: blur(32px) saturate(180%);
-            border: 1.5px solid rgba(255,255,255,0.12);
+            border: 1.5px solid var(--auth-card-border);
             border-radius: 28px;
             padding: 40px 36px;
             box-shadow: 0 24px 80px rgba(0,0,0,0.50),
                         inset 0 1px 0 rgba(255,255,255,0.15);
             position: relative;
             overflow: hidden;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         /* Top edge highlight */
@@ -268,13 +291,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .card-header h2 {
             font-size: 1.55em;
             font-weight: 800;
-            color: #fff;
+            color: var(--auth-text);
             margin: 0 0 6px;
             letter-spacing: -0.025em;
         }
 
         .card-header p {
-            color: rgba(255,255,255,0.42);
+            color: var(--auth-text-muted);
             font-size: 0.88em;
         }
 
@@ -284,7 +307,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .field-label {
             display: block;
             margin-bottom: 8px;
-            color: rgba(255,255,255,0.65);
+            color: var(--auth-text-muted);
             font-weight: 600;
             font-size: 0.80em;
             text-transform: uppercase;
@@ -308,10 +331,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .field-input {
             width: 100%;
             padding: 13px 18px 13px 44px;
-            background: rgba(255,255,255,0.06);
-            border: 1.5px solid rgba(255,255,255,0.12);
+            background: var(--auth-input-bg);
+            border: 1.5px solid var(--auth-input-border);
             border-radius: 13px;
-            color: rgba(255,255,255,0.95);
+            color: var(--auth-text);
             font-size: 0.95em;
             font-weight: 500;
             outline: none;
@@ -320,7 +343,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-sizing: border-box;
         }
 
-        .field-input::placeholder { color: rgba(255,255,255,0.22); }
+        .field-input::placeholder { color: var(--auth-text-muted); opacity: 0.6; }
 
         .field-input:focus {
             border-color: rgba(99,102,241,0.75);
@@ -387,13 +410,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .card-footer a {
-            color: rgba(255,255,255,0.35);
+            color: var(--auth-text-muted);
             text-decoration: none;
             font-size: 0.83em;
             transition: color 0.2s;
         }
 
-        .card-footer a:hover { color: rgba(255,255,255,0.70); }
+        .card-footer a:hover { color: var(--auth-text); }
+
+        /* Theme toggle on login page */
+        .auth-theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            cursor: pointer;
+            z-index: 100;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .auth-theme-toggle:hover {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: rgba(99, 102, 241, 0.40);
+            transform: scale(1.08);
+        }
+
+        [data-theme="light"] .auth-theme-toggle {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.20);
+        }
 
         /* ── Responsive ──────────────────────────────────────── */
         @media (max-width: 800px) {
@@ -414,6 +467,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="orb orb-1" aria-hidden="true"></div>
 <div class="orb orb-2" aria-hidden="true"></div>
 <div class="orb orb-3" aria-hidden="true"></div>
+
+<!-- Theme toggle button -->
+<button id="themeToggle" class="auth-theme-toggle" title="Switch to Light Mode" aria-label="Toggle theme">☀️</button>
 
 <div class="auth-split">
     <!-- Branding panel -->
@@ -488,6 +544,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+
+<script>
+/* Theme toggle */
+(function () {
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        updateThemeIcon(btn, saved);
+        btn.addEventListener('click', function () {
+            const cur = html.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(btn, next);
+        });
+    }
+    function updateThemeIcon(btn, theme) {
+        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+})();
+</script>
 
 </body>
 </html>

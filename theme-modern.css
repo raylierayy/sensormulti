@@ -137,15 +137,16 @@
    ========================================================================== */
 
 .glass-card-modern {
-  background:          rgba(255, 255, 255, 0.08);
+  background:          var(--card-bg, rgba(255, 255, 255, 0.08));
   backdrop-filter:     blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border:              1.5px solid rgba(255, 255, 255, 0.18);
+  border:              1.5px solid var(--card-border, rgba(255, 255, 255, 0.18));
   border-radius:       var(--radius-lg);
-  box-shadow:          0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow:          var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.3)), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position:            relative;
   overflow:            hidden;
-  transition:          transform var(--transition-base), box-shadow var(--transition-base);
+  transition:          transform var(--transition-base), box-shadow var(--transition-base),
+                       background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Specular highlight overlay */
@@ -629,7 +630,7 @@
 .split-layout {
   display:   flex;
   gap:       20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .split-layout .info-panel,
@@ -637,44 +638,51 @@
   flex:       1;
   min-width:  280px;
   max-width:  380px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--panel-bg, rgba(255, 255, 255, 0.05));
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border:       1.5px solid var(--border-light);
+  border:       1.5px solid var(--panel-border, rgba(255, 255, 255, 0.15));
   border-radius: var(--radius-lg);
   padding:       24px;
   box-shadow:    var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.10);
-  position:      relative;
+  position:      sticky;
+  top:           20px;
+  align-self:    flex-start;
+  transition:    background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .split-layout .data-panel {
   flex:         2;
   min-width:    340px;
-  background:   rgba(255, 255, 255, 0.05);
+  background:   var(--panel-bg, rgba(255, 255, 255, 0.05));
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border:        1.5px solid var(--border-light);
+  border:        1.5px solid var(--panel-border, rgba(255, 255, 255, 0.15));
   border-radius: var(--radius-lg);
   padding:       24px;
   box-shadow:    var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.10);
   overflow-x:    auto;
+  max-height:    85vh;
+  overflow-y:    auto;
+  transition:    background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Readonly info boxes inside info/edit panels */
 .readonly-box {
-  background:    rgba(255, 255, 255, 0.07);
-  border:        1px solid var(--border-light);
+  background:    var(--panel-bg, rgba(255, 255, 255, 0.07));
+  border:        1px solid var(--panel-border, rgba(255, 255, 255, 0.15));
   padding:       14px 16px;
   border-radius: var(--radius-md);
   color:         var(--text-secondary);
   margin-bottom: 14px;
   font-size:     0.9em;
   line-height:   1.6;
+  transition:    background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .readonly-box strong {
   display:        block;
-  color:          var(--text-muted);
+  color:          var(--text-secondary);
   font-size:      0.75em;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -726,13 +734,13 @@
 .complex-table td {
   padding:       10px 12px;
   text-align:    center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color:         rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--table-border, rgba(255, 255, 255, 0.08));
+  color:         var(--td-color, rgba(255, 255, 255, 0.88));
 }
 
 .complex-table th {
-  background:     rgba(255, 255, 255, 0.07);
-  color:          rgba(255, 255, 255, 0.55);
+  background:     var(--table-header-bg, rgba(255, 255, 255, 0.07));
+  color:          var(--th-color, rgba(255, 255, 255, 0.55));
   font-weight:    700;
   font-size:      0.78em;
   text-transform: uppercase;
@@ -744,7 +752,7 @@
 }
 
 .complex-table tr.averages-row {
-  background:  rgba(255, 255, 255, 0.08);
+  background:  var(--table-header-bg, rgba(255, 255, 255, 0.08));
   font-weight: bold;
   border-top:  2px solid rgba(147, 197, 253, 0.35);
 }
@@ -844,4 +852,137 @@
   /* Reduce animation intensity on tiny screens */
   .hover-lift:hover { transform: translateY(-3px); }
   .animate-float    { animation-duration: 8s; }
+}
+
+/* ==========================================================================
+   14. LIGHT THEME OVERRIDES
+   ========================================================================== */
+
+[data-theme="light"] .panel-title {
+  color: #1f2937;
+}
+
+[data-theme="light"] .readonly-box {
+  color: #374151;
+}
+
+[data-theme="light"] .complex-table tr.sensor-group-start {
+  border-top-color: rgba(99, 102, 241, 0.20);
+}
+
+[data-theme="light"] .complex-table tr.averages-row {
+  border-top-color: rgba(99, 102, 241, 0.30);
+}
+
+[data-theme="light"] .side-Main {
+  color: #1e40af;
+}
+
+[data-theme="light"] .status-ongoing {
+  background: rgba(245, 158, 11, 0.15);
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+[data-theme="light"] .status-completed {
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+[data-theme="light"] .status-pass {
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+[data-theme="light"] .status-fail {
+  background: rgba(239, 68, 68, 0.12);
+  color: #7f1d1d;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="light"] .status-pending {
+  background: rgba(107, 114, 128, 0.12);
+  color: #374151;
+  border-color: rgba(107, 114, 128, 0.25);
+}
+
+/* Theme toggle button (in topbar) */
+.theme-toggle-btn {
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.40);
+  transform: scale(1.08);
+}
+
+[data-theme="light"] .theme-toggle-btn {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.20);
+}
+
+[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.40);
+}
+
+/* Split layout responsive override for light theme */
+@media (max-width: 1100px) {
+  .split-layout {
+    flex-wrap: wrap;
+  }
+  .split-layout .info-panel,
+  .split-layout .edit-panel {
+    position: relative;
+    top: auto;
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .split-layout .data-panel {
+    max-height: none;
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .split-layout {
+    flex-wrap: wrap;
+  }
+  .split-layout .info-panel,
+  .split-layout .edit-panel {
+    position: relative;
+    top: auto;
+    max-width: 100%;
+  }
+  .split-layout .data-panel {
+    max-height: none;
+    min-width: 100%;
+  }
+}
+
+/* Light mode: adjust orb visibility */
+[data-theme="light"] .orb {
+  opacity: 0.3;
+  filter: blur(100px);
+}
+
+/* Light mode: body background gradient already handled via style.css */
+[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
 }
